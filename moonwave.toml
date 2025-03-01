@@ -3,7 +3,10 @@ gitRepoUrl = "https://github.com/gdr1461/GAdminV2" # From Git
 
 gitSourceBranch = "main"
 changelog = true
-classOrder = []
+
+classOrder = [
+    
+]
 
 [docusaurus]
 onBrokenLinks = "throw"
@@ -14,7 +17,23 @@ organizationName = "gdr1461"
 projectName = "GAdmin"
 url = "https://gdr1461.github.io"
 baseUrl = "/GAdminV2"
-tagline = "Admin Panel"
+tagline = "Simple admin panel implementation for Roblox"
+
+[home]
+enabled = true
+includeReadme = true
+
+[[home.features]]
+title = "Live Rank Editor"
+description = "With GAdmin, you can seamlessly create, modify, and remove ranks in real-time while connected to a live server, ensuring instant updates without interruptions."
+
+[[home.features]]
+title = "Customizability"
+description = "GAdmin is highly customizable, offering a wide range of features that you can easily use to fit your needs and preferences."
+
+[[home.features]]
+title = "Addons Support"
+description = "GAdmin allows you to enhance and customize its functionality with flexible addons support."
 
 [footer]
 style = "dark"
