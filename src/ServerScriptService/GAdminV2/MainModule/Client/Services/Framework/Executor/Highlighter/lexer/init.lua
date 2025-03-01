@@ -1,30 +1,3 @@
---[=[
-	Lexical scanner for creating a sequence of tokens from Lua source code.
-	This is a heavily modified and Roblox-optimized version of
-	the original Penlight Lexer module:
-		https://github.com/stevedonovan/Penlight
-	Authors:
-		stevedonovan <https://github.com/stevedonovan> ----------- Original Penlight lexer author
-		ryanjmulder <https://github.com/ryanjmulder> ------------- Penlight lexer contributer
-		mpeterv <https://github.com/mpeterv> --------------------- Penlight lexer contributer
-		Tieske <https://github.com/Tieske> ----------------------- Penlight lexer contributer
-		boatbomber <https://github.com/boatbomber> --------------- Roblox port, added builtin token,
-		                                                           added patterns for incomplete syntax, bug fixes,
-		                                                           behavior changes, token optimization, thread optimization
-		                                                           Added lexer.navigator() for non-sequential reads
-		Sleitnick <https://github.com/Sleitnick> ----------------- Roblox optimizations
-		howmanysmall <https://github.com/howmanysmall> ----------- Lua + Roblox optimizations
-
-	List of possible tokens:
-		- iden
-		- keyword
-		- builtin
-		- string
-		- number
-		- comment
-		- operator
---]=]
-
 local lexer = {}
 
 local Prefix, Suffix, Cleaner = "^[%c%s]*", "[%c%s]*", "[%c%s]+"
@@ -99,7 +72,6 @@ for i, m in lua_matches do
 	TOKENS[i] = m[2]
 end
 
---- Create a plain token iterator from a string.
 -- @tparam string s a string.
 
 function lexer.scan(s: string)

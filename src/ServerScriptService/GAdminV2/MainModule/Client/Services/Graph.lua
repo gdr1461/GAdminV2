@@ -1,22 +1,3 @@
---[=[
-
-Docs: https://devforum.roblox.com/t/graph-module-easily-draw-graphs-of-your-data/828982
-
-API:
-
-function Graph.new(Frame)
-	returns a GraphHandler
-	
-GraphHandler.Resolution = The number of points it renders
-GraphHandler.BaselineZero = Whether the bottom of the graph should start at zero (or at the minimum value)
-GraphHandler.Data = The dictionary of data sets
-	(Data must be a dictionary of arrays with no holes)
-	
-function GraphHandler.Theme(ThemeDictionary)
-	Updates the Colors of the graph
-
---]=]
-
 local TextService = game:GetService("TextService")
 
 local Graph = {}
