@@ -1,0 +1,1 @@
+Download latest version of GAdmin here: https://github.com/gdr1461/GAdminV2/releases
