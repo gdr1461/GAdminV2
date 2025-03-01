@@ -12,3 +12,4 @@ This page is under construction.
 See [Addons](/docs/Addons) first.
 :::
 
+Download addon example [here](https://github.com/gdr1461/GAdminV2/blob/main/docs/AddonExample.rbxm)
