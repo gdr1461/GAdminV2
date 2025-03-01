@@ -2,6 +2,10 @@
 	@class MyFirstClass
 
 	This is my first class.
+
+	```lua
+	local FunnyCode = false
+	```
 ]=]
 
 --[=[
