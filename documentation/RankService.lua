@@ -1,7 +1,10 @@
 --[=[
 	@class RankService
+	@tag Shared
 
 	Rank handler Service.
+	
+	Location: `GAdminV2.MainModule.Shared.Services.Rank`
 ]=]
 
 --[=[

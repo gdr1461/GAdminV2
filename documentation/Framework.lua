@@ -1,8 +1,11 @@
 --[=[
 	@class Framework
 	@client
+	@tag UI
 
 	UI Main Framework.
+	
+	Location: `GAdminV2.MainModule.Client.Services.Framework`
 ]=]
 
 --[=[

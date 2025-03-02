@@ -1,7 +1,10 @@
 --[=[
 	@class Interface
 	@client
+	@tag UI
 	User Interface for GAdmin.
+	
+	Location: `GAdminV2.MainModule.Client.Services.Framework.Interface`
 ]=]
 
 --[=[

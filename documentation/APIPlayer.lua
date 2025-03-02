@@ -1,7 +1,10 @@
 --[=[
 	@class PlayerAPI
 	@server
-	GAdmiV2 Player API.
+	@tag API
+	Player API for GAdmin. Handles player data and events.
+	
+	Location: `GAdminV2.MainModule.Server.Services.PlayerAPI`
 ]=]
 
 --[=[

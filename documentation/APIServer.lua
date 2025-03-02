@@ -16,7 +16,10 @@ local Proxy = newproxy(true)
 --[=[
 	@class ServerAPI
 	@server
+	@tag API
 	GAdminV2 Server API.
+	
+	Location: `GAdminV2.MainModule.Server.Services.API`
 ]=]
 
 --[=[

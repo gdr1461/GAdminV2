@@ -3,10 +3,6 @@ sidebar_position: 5
 ---
 
 # Addon Parameters
-:::warning
-This page is under construction.
-:::
-
 :::tip
 See [Config Parameters](/docs/Addons#config-parameters) first.
 :::
@@ -24,11 +20,16 @@ Replaces the current `Settings` object inside GAdmin (GAdminV2.Settings) with cu
 
 ![alt text](image-1.png)
 
+![alt text](image-6.png)
+
 ## ISettings
 ---
 Object: `ModuleScript` <br/>
 
 Adds custom settings that users can change in-game.
+
+![alt text](image-5.png)
+
 :::info
 Setting name must be unique from existing ones on the server.
 :::
@@ -99,6 +100,8 @@ Object: `Folder` <br/>
 
 Loads custom commands from a specified folder.
 
+![alt text](image-4.png)
+
 See [Command](/docs/Command)
 
 ## Ranks
@@ -106,6 +109,8 @@ See [Command](/docs/Command)
 Object: `ModuleScript` <br/>
 
 Adds custom ranks into the server with your addon locally.
+
+![alt text](image-3.png)
 
 ```lua
 return {
@@ -133,6 +138,8 @@ return {
 Object: `Folder` <br/>
 
 Loads your own pages into the GAdmin panel.
+
+![alt text](image-8.png)
 
 ```lua
 local UI = {}
