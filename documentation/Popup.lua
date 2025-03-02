@@ -1,36 +1,36 @@
 --[=[
-    @class Popup
-    Popup/Notification system for GAdmin.
+	@class Popup
+	Popup/Notification system for GAdmin.
 ]=]
 
 --[=[
-    @interface Popup
-    @field __type string
-    @field History {CutPopupData}
-    @field New (Data: PopupData) -> nil
-    @within Popup
+	@interface Popup
+	@field __type string
+	@field History {CutPopupData}
+	@field New (Data: PopupData) -> nil
+	@within Popup
 ]=]
 
 --[=[
-    @interface PopupData
-    @field Player Player | nil -- The player to send the popup to. (If on server)
-    @field Type "Notice" | "Warning" | "Error" -- The type of popup to create.
-    @field Title string | nil -- The title of the popup.
-    @field Text string -- The text of the popup.
-    @field Time number | nil -- The time the popup will be displayed for.
-    @field Interact () -> nil -- On interaction function.
-    @field OnEnd () -> nil -- The function to run when the popup ends.
-    @within Popup
+	@interface PopupData
+	@field Player Player | nil -- The player to send the popup to. (If on server)
+	@field Type "Notice" | "Warning" | "Error" -- The type of popup to create.
+	@field Title string | nil -- The title of the popup.
+	@field Text string -- The text of the popup.
+	@field Time number | nil -- The time the popup will be displayed for.
+	@field Interact () -> nil -- On interaction function.
+	@field OnEnd () -> nil -- The function to run when the popup ends.
+	@within Popup
 ]=]
 
 --[=[
-    @interface CutPopupData
-    @field Type "Notice" | "Warning" | "Error" -- The type of popup to create.
-    @field Title string -- The title of the popup.
-    @field Text string -- The text of the popup.
-    @field Time number -- The time the popup will be displayed for.
-    @field Interaction boolean -- If the popup is interactable.
-    @within Popup
+	@interface CutPopupData
+	@field Type "Notice" | "Warning" | "Error" -- The type of popup to create.
+	@field Title string -- The title of the popup.
+	@field Text string -- The text of the popup.
+	@field Time number -- The time the popup will be displayed for.
+	@field Interaction boolean -- If the popup is interactable.
+	@within Popup
 ]=]
 
 --== << Services >>
@@ -59,10 +59,10 @@ Popup.__type = "GAdmin Popup"
 Popup.__metatable = "[GAdmin Popup]: Metatable methods are restricted."
 
 --[=[
-    A table containing the history of last 100 popups.
+	A table containing the history of last 100 popups.
 
-    @prop History {CutPopupData}
-    @within Popup
+	@prop History {CutPopupData}
+	@within Popup
 ]=]
 Popup.History = {}
 
@@ -75,11 +75,11 @@ function Popup:__index(Key)
 end
 
 --[=[
-    Creates a new popup.
+	Creates a new popup.
 
-    @param Data PopupData -- The data to create the popup with.
-    @within Popup
-    @return nil
+	@param Data PopupData -- The data to create the popup with.
+	@within Popup
+	@return nil
 ]=]
 function Popup:New(Data)
 	if not Settings.ShowPopups then

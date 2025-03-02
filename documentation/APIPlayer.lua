@@ -1,42 +1,42 @@
 --[=[
-    @class PlayerAPI
-    @server
-    GAdmiV2 Player API.
+	@class PlayerAPI
+	@server
+	GAdmiV2 Player API.
 ]=]
 
 --[=[
-    @interface PlayerAPI
-    @within PlayerAPI
-    @field __type string
-    @field Players {[number]: PlayerData}
-    @field API ServerAPI
-    @field __RankPrompt (Player: Player, Rank: RankLike) -> nil
-    @field __BanPrompt (Player: Player, BanData: BanOptions) -> nil
-    @field Load (API: ServerAPI) -> nil
-    @field GetUserId (PlayerLike: UserLike) -> number
-    @field GetData (PlayerLike: UserLike) -> PlayerData
-    @field SetData (PlayerLike: UserLike, Key: string, Value: any) -> boolean | nil
-    @field OnMessage (player: Player, Message: string, Options: OnMessageOptions) -> PlayerData
-    @field Bind (player: Player) -> nil
-    @field UnBind (player: Player) -> nil
+	@interface PlayerAPI
+	@within PlayerAPI
+	@field __type string
+	@field Players {[number]: PlayerData}
+	@field API ServerAPI
+	@field __RankPrompt (Player: Player, Rank: RankLike) -> nil
+	@field __BanPrompt (Player: Player, BanData: BanOptions) -> nil
+	@field Load (API: ServerAPI) -> nil
+	@field GetUserId (PlayerLike: UserLike) -> number
+	@field GetData (PlayerLike: UserLike) -> PlayerData
+	@field SetData (PlayerLike: UserLike, Key: string, Value: any) -> boolean | nil
+	@field OnMessage (player: Player, Message: string, Options: OnMessageOptions) -> PlayerData
+	@field Bind (player: Player) -> nil
+	@field UnBind (player: Player) -> nil
 ]=]
 
 --[=[
-    @interface PlayerData
-    @within PlayerAPI
-    @field Data {[string]: any}
-    @field Session {[string]: any}
+	@interface PlayerData
+	@within PlayerAPI
+	@field Data {[string]: any}
+	@field Session {[string]: any}
 ]=]
 
 --[=[
-    @interface OnMessageOptions
-    @within PlayerAPI
-    @field NoLimit boolean
+	@interface OnMessageOptions
+	@within PlayerAPI
+	@field NoLimit boolean
 ]=]
 
 --[=[
-    @type UserLike number | string | Player
-    @within PlayerAPI
+	@type UserLike number | string | Player
+	@within PlayerAPI
 ]=]
 
 --== << Services >>
@@ -65,9 +65,9 @@ Player.__type = "GAdmin Player"
 Player.__metatable = "[GAdmin Player]: Metatable methods are restricted."
 
 --[=[
-    Player datas.
-    @prop Players {[number]: PlayerData}
-    @within PlayerAPI
+	Player datas.
+	@prop Players {[number]: PlayerData}
+	@within PlayerAPI
 ]=]
 Player.Players = {}
 SettingHandler.PlayerAPI = Proxy
@@ -85,13 +85,13 @@ function Player:__newindex(Key, Value)
 end
 
 --[=[
-    Sends new popup to a player from given rank..
+	Sends new popup to a player from given rank..
 
-    @private
-    @param Player Player
-    @param Rank RankLike
-    @within PlayerAPI
-    @return nil
+	@private
+	@param Player Player
+	@param Rank RankLike
+	@within PlayerAPI
+	@return nil
 ]=]
 function Player:__RankPrompt(Player, Rank)
 	local RankData = self.API.RankService:Find(Rank)
@@ -107,13 +107,13 @@ function Player:__RankPrompt(Player, Rank)
 end
 
 --[=[
-    Kicks player with given prompt.
+	Kicks player with given prompt.
 
-    @private
-    @param Player Player
-    @param BanData BanOptions
-    @within PlayerAPI
-    @return nil
+	@private
+	@param Player Player
+	@param BanData BanOptions
+	@within PlayerAPI
+	@return nil
 ]=]
 function Player:__BanPrompt(Player, BanData)
 	BanData = _G.GAdmin.__GetBanData(BanData)
@@ -132,12 +132,12 @@ function Player:__BanPrompt(Player, BanData)
 end
 
 --[=[
-    Loads Player API.
+	Loads Player API.
 
-    @private
-    @param API ServerAPI
-    @within PlayerAPI
-    @return nil
+	@private
+	@param API ServerAPI
+	@within PlayerAPI
+	@return nil
 ]=]
 function Player:Load(API)
 	self.API = API
@@ -160,11 +160,11 @@ function Player:Load(API)
 end
 
 --[=[
-    Gets player with given UserId.
+	Gets player with given UserId.
 
-    @param PlayerLike UserLike
-    @within PlayerAPI
-    @return number
+	@param PlayerLike UserLike
+	@within PlayerAPI
+	@return number
 ]=]
 function Player:GetUserId(PlayerLike)
 	local UserId
@@ -180,11 +180,11 @@ function Player:GetUserId(PlayerLike)
 end
 
 --[=[
-    Gets player data.
+	Gets player data.
 
-    @param PlayerLike UserLike
-    @within PlayerAPI
-    @return PlayerData
+	@param PlayerLike UserLike
+	@within PlayerAPI
+	@return PlayerData
 ]=]
 function Player:GetData(PlayerLike)
 	local UserId = self:GetUserId(PlayerLike)
@@ -206,13 +206,13 @@ function Player:GetData(PlayerLike)
 end
 
 --[=[
-    Sets player data.
+	Sets player data.
 
-    @param PlayerLike UserLike
-    @param Key string
-    @param Value any
-    @within PlayerAPI
-    @return boolean | nil
+	@param PlayerLike UserLike
+	@param Key string
+	@param Value any
+	@within PlayerAPI
+	@return boolean | nil
 ]=]
 function Player:SetData(PlayerLike, Key, Value)
 	local UserId = self:GetUserId(PlayerLike)
@@ -238,13 +238,13 @@ function Player:SetData(PlayerLike, Key, Value)
 end
 
 --[=[
-    Log and call commands from specified message.
+	Log and call commands from specified message.
 
-    @param player Player
-    @param Message string
-    @param Options OnMessageOptions
-    @within PlayerAPI
-    @return PlayerData
+	@param player Player
+	@param Message string
+	@param Options OnMessageOptions
+	@within PlayerAPI
+	@return PlayerData
 ]=]
 function Player:OnMessage(player, Message, Options)
 	Options = Options or {}
@@ -297,12 +297,12 @@ function Player:OnMessage(player, Message, Options)
 end
 
 --[=[
-    Binds player to System.
+	Binds player to System.
 
-    @private
-    @param player Player
-    @within PlayerAPI
-    @return nil
+	@private
+	@param player Player
+	@within PlayerAPI
+	@return nil
 ]=]
 function Player:Bind(player)
 	if self.Players[player.UserId] then
@@ -385,12 +385,12 @@ function Player:Bind(player)
 end
 
 --[=[
-    Unbinds player from System.
+	Unbinds player from System.
 
-    @private
-    @param player Player
-    @within PlayerAPI
-    @return nil
+	@private
+	@param player Player
+	@within PlayerAPI
+	@return nil
 ]=]
 function Player:UnBind(player)
 	if not self.Players[player.UserId] then

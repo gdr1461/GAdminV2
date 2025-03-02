@@ -1,31 +1,31 @@
 --[=[
-    @class Framework
-    @client
+	@class Framework
+	@client
 
-    UI Main Framework.
+	UI Main Framework.
 ]=]
 
 --[=[
-    @interface Framework
-    @field __type string
-    @field Interface Interface
-    @field Cache table
-    @field UI UI
-    @field Display table
-    @field Draggable table
-    @field Chat table
-    @field Load () -> nil
-    @field Trigger (Data: PlaceTriggerData) -> unknown
-    @field Display (Name: string, ...) -> unknown
-    @within Framework
+	@interface Framework
+	@field __type string
+	@field Interface Interface
+	@field Cache table
+	@field UI UI
+	@field Display table
+	@field Draggable table
+	@field Chat table
+	@field Load () -> nil
+	@field Trigger (Data: PlaceTriggerData) -> unknown
+	@field Display (Name: string, ...) -> unknown
+	@within Framework
 ]=]
 
 --[=[
-    @interface PlaceTriggerData
-    @field Place string -- Name of the UI Place
-    @field Method string -- Name of the method to trigger
-    @field Arguments table -- Arguments to pass to the method
-    @within Framework
+	@interface PlaceTriggerData
+	@field Place string -- Name of the UI Place
+	@field Method string -- Name of the method to trigger
+	@field Arguments table -- Arguments to pass to the method
+	@within Framework
 ]=]
 
 --== << Services >>
@@ -53,27 +53,27 @@ Framework.__type = "GAdmin Framework"
 Framework.__metatable = "[GAdmin Framework]: Metatable methods are restricted."
 
 --[=[
-    @prop Interface Interface
-    @within Framework
+	@prop Interface Interface
+	@within Framework
 ]=]
 Framework.Interface = Interface
 
 --[=[
-    Client cache.
-    @prop Cache table
-    @within Framework
+	Client cache.
+	@prop Cache table
+	@within Framework
 ]=]
 Framework.Cache = Cache
 
 --[=[
-    @prop UI UI
-    @within Framework
+	@prop UI UI
+	@within Framework
 ]=]
 Framework.UI = require(Main.Client.Services.UI)
 
 --[=[
-    @prop Display table
-    @within Framework
+	@prop Display table
+	@within Framework
 ]=]
 Framework.Display = DisplayHandler
 
@@ -90,11 +90,11 @@ function Framework:__newindex(Key, Value)
 end
 
 --[=[
-    Loads framework.
+	Loads framework.
 
-    @private
-    @within Framework
-    @return nil
+	@private
+	@within Framework
+	@return nil
 ]=]
 function Framework:Load()
 	local IsStudio = RunService:IsStudio()
@@ -153,12 +153,12 @@ function Framework:Load()
 end
 
 --[=[
-    Triggers a method of a UI Place.
+	Triggers a method of a UI Place.
 
-    @param Data PlaceTriggerData
+	@param Data PlaceTriggerData
 
-    @within Framework
-    @return unknown
+	@within Framework
+	@return unknown
 ]=]
 function Framework:Trigger(Data)
 	Data = Data or {}
@@ -182,13 +182,13 @@ function Framework:Trigger(Data)
 end
 
 --[=[
-    Displays a UI Object.
+	Displays a UI Object.
 
-    @param Name string, -- Name of the UI Object
-    @param ... any, -- Arguments
+	@param Name string, -- Name of the UI Object
+	@param ... any, -- Arguments
 
-    @within Framework
-    @return unknown
+	@within Framework
+	@return unknown
 ]=]
 function Framework:Display(Name, ...)
 	local GuiObject = GuiAssets:FindFirstChild(Name)

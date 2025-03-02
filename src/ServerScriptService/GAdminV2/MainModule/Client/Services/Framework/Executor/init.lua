@@ -46,7 +46,7 @@ function Executor:Load()
 			--local FillAdded = self:UpdateFormat()
 			
 			--print(self.Page.List.Scrollable.Input.Text, self.Page.List.Scrollable.Input.Text:sub(self.Cursor + 1, #self.Page.List.Scrollable.Input.Text))
-			--local Index = self.Page.List.Scrollable.Input.Text:gsub("\t", "    "):find("    ", self.Cursor + 1, true)
+			--local Index = self.Page.List.Scrollable.Input.Text:gsub("\t", "	"):find("	", self.Cursor + 1, true)
 			--print(Index)
 			self.Page.List.Scrollable.Input.CursorPosition = self.Cursor + 1 --+ (FillAdded[self.Line] or 0)--Index and Index + 4 or self.Cursor + 1
 		end

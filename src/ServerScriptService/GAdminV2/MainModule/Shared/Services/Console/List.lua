@@ -21,7 +21,7 @@ function List:End()
 	end
 	
 	--== GAdmin v2 ==--
-	--==           ==--
+	--==		   ==--
 	
 	table.insert(self.List, `--=={Spaces}==--`)
 	if self.AutoPrint then

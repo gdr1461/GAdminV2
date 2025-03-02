@@ -11,7 +11,7 @@ function Utility.sanitizeRichText(s: string): string
 end
 
 function Utility.convertTabsToSpaces(s: string): string
-	return string.gsub(s, "\t", "    ")
+	return string.gsub(s, "\t", "	")
 end
 
 function Utility.removeControlChars(s: string): string

@@ -29,6 +29,9 @@ Replaces the current `Settings` object inside GAdmin (GAdminV2.Settings) with cu
 Object: `ModuleScript` <br/>
 
 Adds custom settings that users can change in-game.
+:::info
+Setting name must be unique from existing ones on the server.
+:::
 
 ```lua
 local Settings = {}
@@ -148,8 +151,8 @@ Structure:
 ![alt text](image-2.png)
 
 Where:
-    - `Place` is the page handler containing the page itself.
-    - `Frame` is the page instance.
+	- `Place` is the page handler containing the page itself.
+	- `Frame` is the page instance.
 
 Place module:
 ```lua
@@ -159,29 +162,42 @@ local Main = ReplicatedStorage.GAdminShared
 --==
 
 local Place = {}
-Place.Name = "PLACENAME"
+Place.Name = "PLACENAME" -- Unique name of the page.
+
+-- Previous location. Set to nil if you want user to be stuck on this place forever.
 Place.Previous = function(Location)
 	return Location.Previous
 end
 
-Place.Page = 0
-Place.MaxPages = 0
+Place.Page = 0 -- Will change to the current page that user is on.
+Place.MaxPages = 0 -- Will change to the number of pages for this place.
 
+-- Your own arguments. Can be anything.
 Place.Arguments = {
 	
 }
 
+-- Fires one time when Interface has loaded in.
 function Place:Load(UI, Frame, Interface)
 	
 end
 
+-- Gets called whenever direct Interface:Refresh() is called for this place or user changed the page of this place.
 function Place:Set(UI, Frame, Page, Arguments, Interface)
 	
 end
 
+-- Gets called whenever page needs to be reloaded.
 function Place:Reload(Page, Interface)
 	
 end
 
 return Place
 ```
+
+Where:
+	- `UI` is ScreenGui of admin panel.
+	- `Frame` is frame of your place.
+	- `Interface` is [GAdmin Interface](/api/Interface/).
+	- `Page` is page frame of your place that user is currently on.
+	- `Arguments` is arguments that gets passed on in [Interface:Refresh()](/api/Interface#Refresh).

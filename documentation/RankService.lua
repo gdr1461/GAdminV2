@@ -1,48 +1,48 @@
 --[=[
-    @class RankService
+	@class RankService
 
-    Rank handler Service.
+	Rank handler Service.
 ]=]
 
 --[=[
-    @interface RankService
-    @field __type string
-    @field RecentPlayers {[number]: PlayerData}
-    @field Temporary {RankData}
-    @field Save () -> boolean
-    @field Reload () -> {RankData}
-    @field BatchAdd (Data: {RankData}, Locally: boolean) -> nil
-    @field Add (Data: RankData, Locally: boolean) -> nil
-    @field Change (RankLike: RankLike, Data: RankData, Locally: boolean) -> nil
-    @field Remove (RankLike: RankLike, Locally: boolean) -> nil
-    @field AddUsers (Rank: RankLike, UserIds: {number}, Locally: boolean) -> nil
-    @field RemoveUsers (Rank: RankLike, UserIds: {number}, Locally: boolean) -> nil
-    @field SetUser (Rank: RankLike, UserId: number, Locally: boolean) -> nil
-    @field AddUser (Rank: RankLike, UserId: number, Locally: boolean) -> nil
-    @field RemoveUser (UserId: number, Locally: boolean) -> nil
-    @field FindUser (UserId: number) -> RankData
-    @field HasRank (Rank: RankLike, UserId: number) -> boolean
-    @field GetUsers (Rank: RankLike, Type: "All" | "Server" | "Global") -> {number}
-    @field GetArray (Rank: RankLike, UserId: number) -> {string}
-    @field IsInternal (UserId: number) -> boolean
-    @field IsEquals (RankData: RankData, SourceData: RankData) -> boolean
-    @field Find (RankLike: RankLike, FromCloned: boolean, NoCopy: boolean, FromTemporary: boolean) -> RankData, number
-    @within RankService
+	@interface RankService
+	@field __type string
+	@field RecentPlayers {[number]: PlayerData}
+	@field Temporary {RankData}
+	@field Save () -> boolean
+	@field Reload () -> {RankData}
+	@field BatchAdd (Data: {RankData}, Locally: boolean) -> nil
+	@field Add (Data: RankData, Locally: boolean) -> nil
+	@field Change (RankLike: RankLike, Data: RankData, Locally: boolean) -> nil
+	@field Remove (RankLike: RankLike, Locally: boolean) -> nil
+	@field AddUsers (Rank: RankLike, UserIds: {number}, Locally: boolean) -> nil
+	@field RemoveUsers (Rank: RankLike, UserIds: {number}, Locally: boolean) -> nil
+	@field SetUser (Rank: RankLike, UserId: number, Locally: boolean) -> nil
+	@field AddUser (Rank: RankLike, UserId: number, Locally: boolean) -> nil
+	@field RemoveUser (UserId: number, Locally: boolean) -> nil
+	@field FindUser (UserId: number) -> RankData
+	@field HasRank (Rank: RankLike, UserId: number) -> boolean
+	@field GetUsers (Rank: RankLike, Type: "All" | "Server" | "Global") -> {number}
+	@field GetArray (Rank: RankLike, UserId: number) -> {string}
+	@field IsInternal (UserId: number) -> boolean
+	@field IsEquals (RankData: RankData, SourceData: RankData) -> boolean
+	@field Find (RankLike: RankLike, FromCloned: boolean, NoCopy: boolean, FromTemporary: boolean) -> RankData, number
+	@within RankService
 ]=]
 
 --[=[
-    @interface RankData
-    @field Name string
-    @field Rank number
-    @field Players {number | string}
-    @field MadeBy string | nil
-    @field Temporary boolean | nil
-    @within RankService
+	@interface RankData
+	@field Name string
+	@field Rank number
+	@field Players {number | string}
+	@field MadeBy string | nil
+	@field Temporary boolean | nil
+	@within RankService
 ]=]
 
 --[=[
-    @type RankLike number | string
-    @within RankService
+	@type RankLike number | string
+	@within RankService
 ]=]
 
 --== << Services >>
@@ -76,16 +76,16 @@ Rank.__type = "GAdmin Rank"
 Rank.__metatable = "[GAdmin Rank]: Metatable methods are restricted."
 
 --[=[
-    Recented cached player datas.
-    @prop RecentPlayers {[number]: PlayerData}
-    @within RankService
+	Recented cached player datas.
+	@prop RecentPlayers {[number]: PlayerData}
+	@within RankService
 ]=]
 Rank.RecentPlayers = {}
 
 --[=[
-    Temporary rank data.
-    @prop Temporary {RankData}
-    @within RankService
+	Temporary rank data.
+	@prop Temporary {RankData}
+	@within RankService
 ]=]
 Rank.Temporary = {}
 
@@ -102,12 +102,12 @@ function Rank:__newindex(Key, Value)
 end
 
 --[=[
-    Saves all of the rank edits to the datastore.
-    @private
+	Saves all of the rank edits to the datastore.
+	@private
 
-    @yields
-    @within RankService
-    @return boolean
+	@yields
+	@within RankService
+	@return boolean
 ]=]
 function Rank:Save()
 	if Side == "Client" then
@@ -139,12 +139,12 @@ function Rank:Save()
 end
 
 --[=[
-    Reloads all of the rank data by getting them from datastore.
-    @private
+	Reloads all of the rank data by getting them from datastore.
+	@private
 
-    @yields
-    @within RankService
-    @return {RankData}
+	@yields
+	@within RankService
+	@return {RankData}
 ]=]
 function Rank:Reload()
 	task.wait()
@@ -215,12 +215,12 @@ function Rank:Reload()
 end
 
 --[=[
-    Adds new ranks at once to the rank data.
-    @yields
-    @param Data {RankData} -- Ranks to add.
-    @param Locally boolean -- If the ranks should be added locally.
-    @within RankService
-    @return nil
+	Adds new ranks at once to the rank data.
+	@yields
+	@param Data {RankData} -- Ranks to add.
+	@param Locally boolean -- If the ranks should be added locally.
+	@within RankService
+	@return nil
 ]=]
 function Rank:BatchAdd(Data, Locally)
 	if Side == "Client" then
@@ -242,12 +242,12 @@ function Rank:BatchAdd(Data, Locally)
 end
 
 --[=[
-    Adds new rank to the rank data.
-    @yields
-    @param Data RankData -- Rank to add.
-    @param Locally boolean -- If the rank should be added locally.
-    @within RankService
-    @return nil
+	Adds new rank to the rank data.
+	@yields
+	@param Data RankData -- Rank to add.
+	@param Locally boolean -- If the rank should be added locally.
+	@within RankService
+	@return nil
 ]=]
 function Rank:Add(Data, Locally)
 	if Side == "Client" then
@@ -280,13 +280,13 @@ function Rank:Add(Data, Locally)
 end
 
 --[=[
-    Changes rank data.
-    @yields
-    @param RankLike RankLike -- Rank to change.
-    @param Data RankData -- New rank data.
-    @param Locally boolean -- If the rank should be changed locally.
-    @within RankService
-    @return nil
+	Changes rank data.
+	@yields
+	@param RankLike RankLike -- Rank to change.
+	@param Data RankData -- New rank data.
+	@param Locally boolean -- If the rank should be changed locally.
+	@within RankService
+	@return nil
 ]=]
 function Rank:Change(RankLike, Data, Locally)
 	if Side == "Client" then
@@ -329,12 +329,12 @@ function Rank:Change(RankLike, Data, Locally)
 end
 
 --[=[
-    Removes rank from the rank data.
-    @yields
-    @param RankLike RankLike -- Rank to remove.
-    @param Locally boolean -- If the rank should be removed locally.
-    @within RankService
-    @return nil
+	Removes rank from the rank data.
+	@yields
+	@param RankLike RankLike -- Rank to remove.
+	@param Locally boolean -- If the rank should be removed locally.
+	@within RankService
+	@return nil
 ]=]
 function Rank:Remove(RankLike, Locally)
 	if Side == "Client" then
@@ -368,13 +368,13 @@ function Rank:Remove(RankLike, Locally)
 end
 
 --[=[
-    Adds users to the rank.
-    @yields
-    @param Rank RankLike -- Rank to add users to.
-    @param UserIds {number} -- Users to add.
-    @param Locally boolean -- If the users should be added locally.
-    @within RankService
-    @return nil
+	Adds users to the rank.
+	@yields
+	@param Rank RankLike -- Rank to add users to.
+	@param UserIds {number} -- Users to add.
+	@param Locally boolean -- If the users should be added locally.
+	@within RankService
+	@return nil
 ]=]
 function Rank:AddUsers(Rank, UserIds, Locally)
 	if Side == "Client" then
@@ -406,13 +406,13 @@ function Rank:AddUsers(Rank, UserIds, Locally)
 end
 
 --[=[
-    Removes users from the rank.
-    @yields
-    @param Rank RankLike -- Rank to remove users from.
-    @param UserIds {number} -- Users to remove.
-    @param Locally boolean -- If the users should be removed locally.
-    @within RankService
-    @return nil
+	Removes users from the rank.
+	@yields
+	@param Rank RankLike -- Rank to remove users from.
+	@param UserIds {number} -- Users to remove.
+	@param Locally boolean -- If the users should be removed locally.
+	@within RankService
+	@return nil
 ]=]
 function Rank:RemoveUsers(Rank, UserIds, Locally)
 	if Side == "Client" then
@@ -438,13 +438,13 @@ function Rank:RemoveUsers(Rank, UserIds, Locally)
 end
 
 --[=[
-    Sets user to the rank.
-    @yields
-    @param Rank RankLike -- Rank to set user to.
-    @param UserId number -- User to set.
-    @param Locally boolean -- If the user should be set locally.
-    @within RankService
-    @return nil
+	Sets user to the rank.
+	@yields
+	@param Rank RankLike -- Rank to set user to.
+	@param UserId number -- User to set.
+	@param Locally boolean -- If the user should be set locally.
+	@within RankService
+	@return nil
 ]=]
 function Rank:SetUser(Rank, UserId, Locally)
 	if Side == "Client" then
@@ -457,13 +457,13 @@ function Rank:SetUser(Rank, UserId, Locally)
 end
 
 --[=[
-    Adds user to the rank.
-    @yields
-    @param Rank RankLike -- Rank to add user to.
-    @param UserId number -- User to add.
-    @param Locally boolean -- If the user should be added locally.
-    @within RankService
-    @return nil
+	Adds user to the rank.
+	@yields
+	@param Rank RankLike -- Rank to add user to.
+	@param UserId number -- User to add.
+	@param Locally boolean -- If the user should be added locally.
+	@within RankService
+	@return nil
 ]=]
 function Rank:AddUser(Rank, UserId, Locally)
 	if Side == "Client" then
@@ -501,12 +501,12 @@ function Rank:AddUser(Rank, UserId, Locally)
 end
 
 --[=[
-    Removes user from the rank.
-    @yields
-    @param UserId number -- User to remove.
-    @param Locally boolean -- If the user should be removed locally.
-    @within RankService
-    @return nil
+	Removes user from the rank.
+	@yields
+	@param UserId number -- User to remove.
+	@param Locally boolean -- If the user should be removed locally.
+	@within RankService
+	@return nil
 ]=]
 function Rank:RemoveUser(UserId, Locally)
 	if Side == "Client" then
@@ -538,11 +538,11 @@ function Rank:RemoveUser(UserId, Locally)
 end
 
 --[=[
-    Finds user rank.
+	Finds user rank.
 
-    @param UserId number -- User to find.
-    @within RankService
-    @return RankData
+	@param UserId number -- User to find.
+	@within RankService
+	@return RankData
 ]=]
 function Rank:FindUser(UserId)
 	local Success = pcall(function()
@@ -570,12 +570,12 @@ function Rank:FindUser(UserId)
 end
 
 --[=[
-    Checks if user has rank.
+	Checks if user has rank.
 
-    @param Rank RankLike -- Rank to check for.
-    @param UserId number -- User to check.
-    @within RankService
-    @return boolean
+	@param Rank RankLike -- Rank to check for.
+	@param UserId number -- User to check.
+	@within RankService
+	@return boolean
 ]=]
 function Rank:HasRank(Rank, UserId)
 	local Users = self:GetUsers(Rank)
@@ -595,13 +595,13 @@ function Rank:HasRank(Rank, UserId)
 end
 
 --[=[
-    Returns array table of users in the rank.
+	Returns array table of users in the rank.
 
-    @yields
-    @param Rank RankLike -- Rank to get users from.
-    @param Type "All" | "Server" | "Global" -- Type of users to get.
-    @within RankService
-    @return {number}
+	@yields
+	@param Rank RankLike -- Rank to get users from.
+	@param Type "All" | "Server" | "Global" -- Type of users to get.
+	@within RankService
+	@return {number}
 ]=]
 function Rank:GetUsers(Rank, Type)
 	Type = Type or "All"
@@ -680,12 +680,12 @@ function Rank:GetUsers(Rank, Type)
 end
 
 --[=[
-    Returns array table of ranks.
+	Returns array table of ranks.
 
-    @param Rank RankLike -- Rank to get array from.
-    @param UserId number -- Unused argument. Can be skipped.
-    @within RankService
-    @return {string}
+	@param Rank RankLike -- Rank to get array from.
+	@param UserId number -- Unused argument. Can be skipped.
+	@within RankService
+	@return {string}
 ]=]
 function Rank:GetArray(Rank, UserId)
 	Rank = Rank or 5
@@ -704,24 +704,24 @@ function Rank:GetArray(Rank, UserId)
 end
 
 --[=[
-    Checks if user is GAdminV2 internal or not.
+	Checks if user is GAdminV2 internal or not.
 
-    @private
-    @param UserId number -- User to check.
-    @within RankService
-    @return boolean
+	@private
+	@param UserId number -- User to check.
+	@within RankService
+	@return boolean
 ]=]
 function Rank:IsInternal(UserId)
 	return table.find(Cache.VersionLog.Internals, UserId) ~= nil
 end
 
 --[=[
-    Checks if rank data is equals to source data.
+	Checks if rank data is equals to source data.
 
-    @param RankData RankData -- Rank data to check.
-    @param SourceData RankData -- Source data to check.
-    @within RankService
-    @return boolean
+	@param RankData RankData -- Rank data to check.
+	@param SourceData RankData -- Source data to check.
+	@within RankService
+	@return boolean
 ]=]
 function Rank:IsEquals(RankData, SourceData)
 	for i, v in pairs(SourceData) do
@@ -736,14 +736,14 @@ function Rank:IsEquals(RankData, SourceData)
 end
 
 --[=[
-    Finds rank data.
+	Finds rank data.
 
-    @param RankLike RankLike -- Rank to find.
-    @param FromCloned boolean -- If the rannk data should be returned from constant rank table.
-    @param NoCopy boolean -- If the rank data should be returned as a reference and not a copy.
-    @param FromTemporary boolean -- If the rank data should be returned from temporary rank table.
-    @within RankService
-    @return RankData, number
+	@param RankLike RankLike -- Rank to find.
+	@param FromCloned boolean -- If the rannk data should be returned from constant rank table.
+	@param NoCopy boolean -- If the rank data should be returned as a reference and not a copy.
+	@param FromTemporary boolean -- If the rank data should be returned from temporary rank table.
+	@within RankService
+	@return RankData, number
 ]=]
 function Rank:Find(RankLike, FromCloned, NoCopy, FromTemporary)
 	local Name = type(RankLike) == "string" and RankLike or nil

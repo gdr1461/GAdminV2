@@ -1,40 +1,80 @@
 --[=[
-    @class Interface
-    @client
-    User Interface for GAdmin.
+	@class Interface
+	@client
+	User Interface for GAdmin.
 ]=]
 
 --[=[
-    @interface Interface
-    @field __type string
-    @within Interface
+	@interface Interface
+	@field __type string
+	@field UI ScreenGui
+	@field __Hovered CurrentlyHovered
+	@field __Tweens InterfaceTweens
+	@field PlaceData table
+	@field Popup Popup
+	@field Listeners table
+	@field Hovers table
+	@field Location Location
+	@field ScreenSize Vector2
+	@field Icon TopBarPlus
+	@field Load () -> ()
+	@field Open (On: string | nil, FromIcon: boolean | nil, NoSound: boolean | nil) -> ()
+	@field Close (FromIcon: boolean | nil) -> ()
+	@field SetGuiCoreEnabled (Name: string, State: boolean) -> ()
+	@field OnLocationChange (Function: (Location: Location) -> ()) -> ()
+	@field TriggerDataMethod (Place: string, Method: string, ...: any) -> unknown
+	@field GetData (Place: string | nil) -> table
+	@field GetFixedPosition (Frame: GuiObject, Position: UDim2) -> UDim2
+	@field LoadHovering () -> ()
+	@field SetHover (Object: GuiObject, RawInfo: string | () -> string) -> ()
+	@field SetHoverConfig (Object: GuiObject, Follow: (Object: GuiObject) -> UDim2) -> ()
+	@field ConfigBlock (Button: GuiObject, CategoryName: string, Key: string) -> ()
+	@field Block (Button: GuiObject, RankLike: RankLike) -> ()
+	@field UnBlock (Button: GuiObject) -> ()
+	@field Check () -> ()
+	@field SetLocation (Location: string, Page: number | nil, OpenOnClosed: boolean | nil) -> ()
+	@field Refresh (Data: ArgumentiveLocation | nil) -> ()
+	@field Reload (Data: ArgumentiveLocation | nil) -> ()
+	@field GetLocation () -> string
+	@field GetPage () -> number
+	@field SetPage (Page: number) -> ()
+	@within Interface
 ]=]
 
 --[=[
-    @interface CurrentlyHovered
-    @field Object GuiObject -- The object that is currently hovered.
-    @field Content string -- The content of the hovered object.
-    @field IsHovered boolean -- Whether the object is hovered or not.
-    @within Interface
+	@interface CurrentlyHovered
+	@field Object GuiObject -- The object that is currently hovered.
+	@field Content string -- The content of the hovered object.
+	@field IsHovered boolean -- Whether the object is hovered or not.
+	@within Interface
 ]=]
 
 --[=[
-    @interface InterfaceTweens
-    @field Open Tween -- Tween for opening the interface.
-    @field Close Tween -- Tween for closing the interface.
-    @within Interface
+	@interface InterfaceTweens
+	@field Open Tween -- Tween for opening the interface.
+	@field Close Tween -- Tween for closing the interface.
+	@within Interface
 ]=]
 
 --[=[
-    @interface Location
-    @field Place string -- The current place.
-    @field Data table -- The data of the current place.
-    @field Frame GuiObject -- The frame of the current place.
-    @field Back table | (Location: Location) -> () -- The back function.
-    @field Previous table -- The previous location.
-    @field Page number -- The current page.
-    @field MaxPages number -- The maximum pages.
-    @within Interface
+	@interface Location
+	@field Place string -- The current place.
+	@field Data table -- The data of the current place.
+	@field Frame GuiObject -- The frame of the current place.
+	@field Back table | (Location: Location) -> () -- The back function.
+	@field Previous table -- The previous location.
+	@field Page number -- The current page.
+	@field MaxPages number -- The maximum pages.
+	@within Interface
+]=]
+
+--[=[
+	@interface ArgumentiveLocation
+	@field Place string | nil -- The place to show.
+	@field Page number | nil -- The page to show.
+	@field MaxPages number | nil -- The maximum pages to show.
+	@field Arguments any | nil -- The arguments to pass.
+	@within Interface
 ]=]
 
 --== << Services >>
@@ -80,14 +120,18 @@ Interface.__type = "GAdmin Interface"
 Interface.__metatable = "[GAdmin Interface]: Metatable methods are restricted."
 
 --[=[
-    @prop UI ScreenGui
-    @within Interface
+	ScreenGui of admin panel.
+
+	@prop UI ScreenGui
+	@within Interface
 ]=]
 Interface.UI = UI.Gui
 
 --[=[
-    @prop __Hovered CurrentlyHovered
-    @within Interface
+	Currently hovered object in the panel.
+
+	@prop __Hovered CurrentlyHovered
+	@within Interface
 ]=]
 Interface.__Hovered = {
 	Object = nil,
@@ -96,8 +140,10 @@ Interface.__Hovered = {
 }
 
 --[=[
-    @prop __Tweens InterfaceTweens
-    @within Interface
+	Tweens cache.
+
+	@prop __Tweens InterfaceTweens
+	@within Interface
 ]=]
 Interface.__Tweens = {
 	Open = TweenService:Create(Interface.UI.MainFrame.Ratio, Tween, {AspectRatio = 2}),
@@ -105,32 +151,40 @@ Interface.__Tweens = {
 }
 
 --[=[
-    @prop PlaceData table
-    @within Interface
+	Data of all loaded places.
+
+	@prop PlaceData table
+	@within Interface
 ]=]
 Interface.PlaceData = {}
 
 --[=[
-    @prop Popup Popup
-    @within Interface
+	@prop Popup Popup
+	@within Interface
 ]=]
 Interface.Popup = require(Main.Shared.Services.Popup)
 
 --[=[
-    @prop Listeners table
-    @within Interface
+	OnLocationChange listeners.
+
+	@prop Listeners table
+	@within Interface
 ]=]
 Interface.Listeners = {}
 
 --[=[
-    @prop Hovers table
-    @within Interface
+	Loaded hover data of objects.
+
+	@prop Hovers table
+	@within Interface
 ]=]
 Interface.Hovers = {}
 
 --[=[
-    @prop Location Location
-    @within Interface
+	Current location of the interface that the user is on.
+
+	@prop Location Location
+	@within Interface
 ]=]
 Interface.Location = {
 	Place = "Main",
@@ -166,10 +220,10 @@ function Interface:__newindex(Key, Value)
 end
 
 --[=[
-    Loads the interface.
-    
-    @within Interface
-    @return nil
+	Loads the interface.
+	
+	@within Interface
+	@return nil
 ]=]
 function Interface:Load()
 	local IsStudio = RunService:IsStudio()
@@ -347,25 +401,25 @@ function Interface:Load()
 end
 
 --[=[
-    Relocates the interface.
-    @private
-    
-    @within Interface
-    @return nil
+	Relocates the interface.
+	@private
+	
+	@within Interface
+	@return nil
 ]=]
 function Interface:Relocate()
 	self.UI.MainFrame.Position = UDim2.fromScale(.5, .5)
 end
 
 --[=[
-    Opens the interface.
-    
-    @param On string | nil -- The location to open the interface on.
-    @param FromIcon boolean | nil -- Whether the interface is opened from the icon.
-    @param NoSound boolean | nil -- Whether to play the sound or not.
-    
-    @within Interface
-    @return nil
+	Opens the interface.
+	
+	@param On string | nil -- The location to open the interface on.
+	@param FromIcon boolean | nil -- Whether the interface is opened from the icon.
+	@param NoSound boolean | nil -- Whether to play the sound or not.
+	
+	@within Interface
+	@return nil
 ]=]
 function Interface:Open(On, FromIcon, NoSound)
 	if self.UI.MainFrame.Visible then
@@ -396,12 +450,12 @@ function Interface:Open(On, FromIcon, NoSound)
 end
 
 --[=[
-    Closes the interface.
-    
-    @param FromIcon boolean | nil -- Whether the interface is closed from the icon.
-    
-    @within Interface
-    @return nil
+	Closes the interface.
+	
+	@param FromIcon boolean | nil -- Whether the interface is closed from the icon.
+	
+	@within Interface
+	@return nil
 ]=]
 function Interface:Close(FromIcon)
 	if not self.UI.MainFrame.Visible then
@@ -427,12 +481,12 @@ function Interface:Close(FromIcon)
 end
 
 --[=[
-    Sets the state of CoreGui.
+	Sets the state of CoreGui.
 
-    @param Name string -- The name of the CoreGui.
-    @param State boolean -- The state of the CoreGui.
-    @within Interface
-    @return nil
+	@param Name string -- The name of the CoreGui.
+	@param State boolean -- The state of the CoreGui.
+	@within Interface
+	@return nil
 ]=]
 function Interface:SetGuiCoreEnabled(Name, State)
 	local EnumInfo = Enum.CoreGuiType:FromName(Name)
@@ -445,25 +499,25 @@ function Interface:SetGuiCoreEnabled(Name, State)
 end
 
 --[=[
-    Sets the listener for location change.
+	Sets the listener for location change.
 
-    @param Function (Location: Location) -> () -- The function to set.
-    @within Interface
-    @return nil
+	@param Function (Location: Location) -> () -- The function to set.
+	@within Interface
+	@return nil
 ]=]
 function Interface:OnLocationChange(Function)
 	table.insert(self.Listeners, Function)
 end
 
 --[=[
-    Triggers a method of a UI Place.
+	Triggers a method of a UI Place.
 
-    @param Place string -- The place to trigger the method.
-    @param Method string -- The method to trigger.
-    @param ... any -- The arguments to pass.
-    
-    @within Interface
-    @return unknown
+	@param Place string -- The place to trigger the method.
+	@param Method string -- The method to trigger.
+	@param ... any -- The arguments to pass.
+	
+	@within Interface
+	@return unknown
 ]=]
 function Interface:TriggerDataMethod(Place, Method, ...)
 	local Data = self:GetData(Place)
@@ -486,11 +540,11 @@ function Interface:TriggerDataMethod(Place, Method, ...)
 end
 
 --[=[
-    Returns data of given place.
+	Returns data of given place.
 
-    @param Place string | nil -- The place to get the data from.
-    @within Interface
-    @return table
+	@param Place string | nil -- The place to get the data from.
+	@within Interface
+	@return table
 ]=]
 function Interface:GetData(Place)
 	Place = Place or self.Location.Place
@@ -498,12 +552,12 @@ function Interface:GetData(Place)
 end
 
 --[=[
-    Returns position that fits into the screen size.
-    @private
-    @param Frame GuiObject -- The frame to get the position from.
-    @param Position UDim2 -- The position to get the fixed position from.
-    @within Interface
-    @return UDim2
+	Returns position that fits into the screen size.
+	@private
+	@param Frame GuiObject -- The frame to get the position from.
+	@param Position UDim2 -- The position to get the fixed position from.
+	@within Interface
+	@return UDim2
 ]=]
 function Interface:GetFixedPosition(Frame, Position)
 	local OffsetX, OffsetY = self.ScreenSize.X * .005, self.ScreenSize.Y * .01
@@ -527,10 +581,10 @@ function Interface:GetFixedPosition(Frame, Position)
 end
 
 --[=[
-    Loads hovering.
-    @private
-    @within Interface
-    @return nil
+	Loads hovering.
+	@private
+	@within Interface
+	@return nil
 ]=]
 function Interface:LoadHovering()
 	local LastText
@@ -568,13 +622,13 @@ function Interface:LoadHovering()
 end
 
 --[=[
-    Sets the hover for an object.
-    
-    @param Object GuiObject -- The object to set the hover for.
-    @param RawInfo string | () -> string -- The content of the hover.
-    
-    @within Interface
-    @return nil
+	Sets the hover for an object.
+	
+	@param Object GuiObject -- The object to set the hover for.
+	@param RawInfo string | () -> string -- The content of the hover.
+	
+	@within Interface
+	@return nil
 ]=]
 function Interface:SetHover(Object, RawInfo)
 	Object.MouseEnter:Connect(function()
@@ -604,13 +658,13 @@ function Interface:SetHover(Object, RawInfo)
 end
 
 --[=[
-    Sets the hover for an object.
-    
-    @param Object GuiObject -- The object to set the hover for.
-    @param Follow (Object: GuiObject) -> UDim2 -- The function to follow the object.
-    
-    @within Interface
-    @return nil
+	Sets the hover for an object.
+	
+	@param Object GuiObject -- The object to set the hover for.
+	@param Follow (Object: GuiObject) -> UDim2 -- The function to follow the object.
+	
+	@within Interface
+	@return nil
 ]=]
 function Interface:SetHoverConfig(Object, Follow)
 	if self.Hovers[Object] then
@@ -622,12 +676,12 @@ function Interface:SetHoverConfig(Object, Follow)
 end
 
 --[=[
-    Sets rank requirment to access GuiObject.
-    @param Button GuiObject -- The button to set the rank requirement for.
-    @param CategoryName string -- The category name of the rank requirement.
-    @param Key string -- The key of the rank requirement.
-    @within Interface
-    @return nil
+	Sets rank requirment to access GuiObject.
+	@param Button GuiObject -- The button to set the rank requirement for.
+	@param CategoryName string -- The category name of the rank requirement.
+	@param Key string -- The key of the rank requirement.
+	@within Interface
+	@return nil
 ]=]
 function Interface:ConfigBlock(Button, CategoryName, Key)
 	local Category = Restrictions[CategoryName]
@@ -644,11 +698,11 @@ function Interface:ConfigBlock(Button, CategoryName, Key)
 end
 
 --[=[
-    Blocks the button for the rank requirement.
-    @param Button GuiObject -- The button to block.
-    @param RankLike RankLike -- The minimum rank to access button.
-    @within Interface
-    @return nil
+	Blocks the button for the rank requirement.
+	@param Button GuiObject -- The button to block.
+	@param RankLike RankLike -- The minimum rank to access button.
+	@within Interface
+	@return nil
 ]=]
 function Interface:Block(Button, RankLike)
 	local RankData = Rank:Find(RankLike)
@@ -690,10 +744,10 @@ function Interface:Block(Button, RankLike)
 end
 
 --[=[
-    Unblocks the button.
-    @param Button GuiObject -- The button to unblock.
-    @within Interface
-    @return nil
+	Unblocks the button.
+	@param Button GuiObject -- The button to unblock.
+	@within Interface
+	@return nil
 ]=]
 function Interface:UnBlock(Button)
 	if not Button:GetAttribute("BLOCK_CHECK") then
@@ -715,10 +769,10 @@ function Interface:UnBlock(Button)
 end
 
 --[=[
-    Checks the interface.
-    @private
-    @within Interface
-    @return nil
+	Checks the interface.
+	@private
+	@within Interface
+	@return nil
 ]=]
 function Interface:Check()
 	if Cache.Session.Rank < Restrictions.ButtonAccess and self.Icon then
@@ -756,10 +810,10 @@ function Interface:Check()
 end
 
 --[=[
-    Same as SetLocation, but gives more freedom for what to show.
-    @param Data Location | nil -- The location to show.
-    @within Interface
-    @return nil
+	Same as SetLocation, but gives more freedom for what to show.
+	@param Data ArgumentiveLocation | nil -- The location to show.
+	@within Interface
+	@return nil
 ]=]
 function Interface:Refresh(Data)
 	local Location = Data or self.Location
@@ -816,11 +870,11 @@ function Interface:Refresh(Data)
 end
 
 --[=[
-    Reloads the interface location.
-    @private
-    @param Data Location | nil -- The data to reload.
-    @within Interface
-    @return nil
+	Reloads the interface location.
+	@private
+	@param Data ArgumentiveLocation | nil -- The data to reload.
+	@within Interface
+	@return nil
 ]=]
 function Interface:Reload(Data)
 	Data = Data or {}
@@ -858,21 +912,21 @@ function Interface:Reload(Data)
 end
 
 --[=[
-    Returns the location name.
-    @within Interface
-    @return string
+	Returns the location name.
+	@within Interface
+	@return string
 ]=]
 function Interface:GetLocation()
 	return self.Location.Place
 end
 
 --[=[
-    Sets the location.
-    @param Location string -- The location to set.
-    @param Page number | nil -- The page to set.
-    @param OpenOnClosed boolean | nil -- Open interface if it is closed.
-    @within Interface
-    @return nil
+	Sets the location.
+	@param Location string -- The location to set.
+	@param Page number | nil -- The page to set.
+	@param OpenOnClosed boolean | nil -- Open interface if it is closed.
+	@within Interface
+	@return nil
 ]=]
 function Interface:SetLocation(Location, Page, OpenOnClosed)
 	local Frame = self.UI.MainFrame.Places:FindFirstChild(Location)
@@ -901,19 +955,19 @@ function Interface:SetLocation(Location, Page, OpenOnClosed)
 end
 
 --[=[
-    Returns current page of the location.
-    @within Interface
-    @return number
+	Returns current page of the location.
+	@within Interface
+	@return number
 ]=]
 function Interface:GetPage()
 	return self.Location.Page
 end
 
 --[=[
-    Sets the page of the location.
-    @param Page number -- The page to set.
-    @within Interface
-    @return nil
+	Sets the page of the location.
+	@param Page number -- The page to set.
+	@within Interface
+	@return nil
 ]=]
 function Interface:SetPage(Page)
 	self.Location.Page = math.max(math.min(Page, self.Location.MaxPages), 1)
