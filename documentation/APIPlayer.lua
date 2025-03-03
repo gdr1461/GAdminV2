@@ -18,7 +18,7 @@
 	@field Load (API: ServerAPI) -> nil
 	@field GetUserId (PlayerLike: UserLike) -> number
 	@field GetData (PlayerLike: UserLike) -> PlayerData
-	@field SetData (PlayerLike: UserLike, Key: string, Value: any) -> boolean | nil
+	@field SetData (PlayerLike: UserLike, Key: string, Value: any) -> boolean?
 	@field OnMessage (player: Player, Message: string, Options: OnMessageOptions) -> PlayerData
 	@field Bind (player: Player) -> nil
 	@field UnBind (player: Player) -> nil
@@ -216,7 +216,7 @@ end
 	@param Key string
 	@param Value any
 	@within PlayerAPI
-	@return boolean | nil
+	@return boolean?
 ]=]
 function Player:SetData(PlayerLike, Key, Value)
 	local UserId = self:GetUserId(PlayerLike)

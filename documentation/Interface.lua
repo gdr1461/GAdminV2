@@ -21,12 +21,12 @@
 	@field ScreenSize Vector2
 	@field Icon TopBarPlus
 	@field Load () -> ()
-	@field Open (On: string | nil, FromIcon: boolean | nil, NoSound: boolean | nil) -> ()
-	@field Close (FromIcon: boolean | nil) -> ()
+	@field Open (On: string?, FromIcon: boolean?, NoSound: boolean?) -> ()
+	@field Close (FromIcon: boolean?) -> ()
 	@field SetGuiCoreEnabled (Name: string, State: boolean) -> ()
 	@field OnLocationChange (Function: (Location: Location) -> ()) -> ()
 	@field TriggerDataMethod (Place: string, Method: string, ...: any) -> unknown
-	@field GetData (Place: string | nil) -> table
+	@field GetData (Place: string?) -> table
 	@field GetFixedPosition (Frame: GuiObject, Position: UDim2) -> UDim2
 	@field LoadHovering () -> ()
 	@field SetHover (Object: GuiObject, RawInfo: string | () -> string) -> ()
@@ -35,9 +35,9 @@
 	@field Block (Button: GuiObject, RankLike: RankLike) -> ()
 	@field UnBlock (Button: GuiObject) -> ()
 	@field Check () -> ()
-	@field SetLocation (Location: string, Page: number | nil, OpenOnClosed: boolean | nil) -> ()
-	@field Refresh (Data: ArgumentiveLocation | nil) -> ()
-	@field Reload (Data: ArgumentiveLocation | nil) -> ()
+	@field SetLocation (Location: string, Page: number?, OpenOnClosed: boolean?) -> ()
+	@field Refresh (Data: ArgumentiveLocation?) -> ()
+	@field Reload (Data: ArgumentiveLocation?) -> ()
 	@field GetLocation () -> string
 	@field GetPage () -> number
 	@field SetPage (Page: number) -> ()
@@ -73,10 +73,10 @@
 
 --[=[
 	@interface ArgumentiveLocation
-	@field Place string | nil -- The place to show.
-	@field Page number | nil -- The page to show.
-	@field MaxPages number | nil -- The maximum pages to show.
-	@field Arguments any | nil -- The arguments to pass.
+	@field Place string? -- The place to show.
+	@field Page number? -- The page to show.
+	@field MaxPages number? -- The maximum pages to show.
+	@field Arguments any? -- The arguments to pass.
 	@within Interface
 ]=]
 
@@ -423,9 +423,9 @@ end
 --[=[
 	Opens the interface.
 	
-	@param On string | nil -- The location to open the interface on.
-	@param FromIcon boolean | nil -- Whether the interface is opened from the icon.
-	@param NoSound boolean | nil -- Whether to play the sound or not.
+	@param On string? -- The location to open the interface on.
+	@param FromIcon boolean? -- Whether the interface is opened from the icon.
+	@param NoSound boolean? -- Whether to play the sound or not.
 	
 	@within Interface
 	@return nil
@@ -461,7 +461,7 @@ end
 --[=[
 	Closes the interface.
 	
-	@param FromIcon boolean | nil -- Whether the interface is closed from the icon.
+	@param FromIcon boolean? -- Whether the interface is closed from the icon.
 	
 	@within Interface
 	@return nil
@@ -551,7 +551,7 @@ end
 --[=[
 	Returns data of given place.
 
-	@param Place string | nil -- The place to get the data from.
+	@param Place string? -- The place to get the data from.
 	@within Interface
 	@return table
 ]=]
@@ -843,7 +843,7 @@ end
 	})
 	```
 
-	@param Data ArgumentiveLocation | nil -- The location to show.
+	@param Data ArgumentiveLocation? -- The location to show.
 	@within Interface
 	@return nil
 ]=]
@@ -904,7 +904,7 @@ end
 --[=[
 	Reloads the interface location.
 	@private
-	@param Data ArgumentiveLocation | nil -- The data to reload.
+	@param Data ArgumentiveLocation? -- The data to reload.
 	@within Interface
 	@return nil
 ]=]
@@ -955,8 +955,8 @@ end
 --[=[
 	Sets the current interface location to specified one.
 	@param Location string -- The location to set.
-	@param Page number | nil -- The page to set.
-	@param OpenOnClosed boolean | nil -- Open panel if it is closed.
+	@param Page number? -- The page to set.
+	@param OpenOnClosed boolean? -- Open panel if it is closed.
 	@within Interface
 	@return nil
 ]=]

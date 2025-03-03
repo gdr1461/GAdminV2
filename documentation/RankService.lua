@@ -38,8 +38,8 @@
 	@field Name string
 	@field Rank number
 	@field Players {number | string}
-	@field MadeBy string | nil
-	@field Temporary boolean | nil
+	@field MadeBy string?
+	@field Temporary boolean?
 	@within RankService
 ]=]
 

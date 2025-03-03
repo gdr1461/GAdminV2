@@ -16,11 +16,11 @@
 
 --[=[
 	@interface PopupData
-	@field Player Player | nil -- The player to send the popup to. (If on server)
+	@field Player Player? -- The player to send the popup to. (If on server)
 	@field Type "Notice" | "Warning" | "Error" -- The type of popup to create.
-	@field Title string | nil -- The title of the popup.
+	@field Title string? -- The title of the popup.
 	@field Text string -- The text of the popup.
-	@field Time number | nil -- The time the popup will be displayed for.
+	@field Time number? -- The time the popup will be displayed for.
 	@field Interact () -> nil -- On interaction function.
 	@field OnEnd () -> nil -- The function to run when the popup ends.
 	@within Popup
