@@ -1,6 +1,9 @@
 --[=[
     @class Scheduler
+	@tag Shared
     Schedules function execution over time intervals.
+
+	Location: `GAdmin.MainModule.Shared.Services.Scheduler`
 ]=]
 
 --[=[
