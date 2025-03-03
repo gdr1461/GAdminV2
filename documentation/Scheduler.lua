@@ -1,59 +1,59 @@
 --[=[
-    @class Scheduler
+	@class Scheduler
 	@tag Shared
-    Schedules function execution over time intervals.
+	Schedules function execution over time intervals.
 
 	Location: `GAdmin.MainModule.Shared.Services.Scheduler`
 ]=]
 
 --[=[
-    @interface Scheduler
-    @field Groups IntervalGroup
-    @field Load () -> nil
-    @field AddGroup (Name: string) -> nil
-    @field RemoveGroup (Name: string) -> nil
-    @field Insert (Group: string, Id: number, Function: () -> nil, Time: number) -> nil
-    @field Remove (Group: string, Id: number) -> nil
-    @field Find (Group: string, Id: number) -> Interval, number
-    @field IsReady (Group: string, Id: number) -> boolean
-    @field Call (Group: string, Id: number, Force: boolean) -> nil
+	@interface Scheduler
+	@field Groups IntervalGroup
+	@field Load () -> nil
+	@field AddGroup (Name: string) -> nil
+	@field RemoveGroup (Name: string) -> nil
+	@field Insert (Group: string, Id: number, Function: () -> nil, Time: number) -> nil
+	@field Remove (Group: string, Id: number) -> nil
+	@field Find (Group: string, Id: number) -> Interval, number
+	@field IsReady (Group: string, Id: number) -> boolean
+	@field Call (Group: string, Id: number, Force: boolean) -> nil
 
-    @within Scheduler
+	@within Scheduler
 ]=]
 
 --[=[
-    @type IntervalGroup {[string]: {Interval}}
-    @within Scheduler
+	@type IntervalGroup {[string]: {Interval}}
+	@within Scheduler
 ]=]
 
 --[=[
-    @interface Interval
-    @field Id number -- The unique identifier of the interval.
-    @field Callback thread -- The coroutine of the interval.
-    @field Function () -> nil -- The function to run.
-    @field Time number -- The time interval.
-    @field LastUpdate number -- Last time the interval was updated.
-    @within Scheduler
+	@interface Interval
+	@field Id number -- The unique identifier of the interval.
+	@field Callback thread -- The coroutine of the interval.
+	@field Function () -> nil -- The function to run.
+	@field Time number -- The time interval.
+	@field LastUpdate number -- Last time the interval was updated.
+	@within Scheduler
 ]=]
 
 local Scheduler = {}
 
 --[=[
-    Currently running interval groups.
-    @readonly
-    @prop Groups IntervalGroup
-    @within Scheduler
+	Currently running interval groups.
+	@readonly
+	@prop Groups IntervalGroup
+	@within Scheduler
 ]=]
 Scheduler.Groups = {
 	Global = {}
 }
 
 --[=[
-    Loads scheduler.
+	Loads scheduler.
 
-    @private
-    @within Scheduler
-    @return nil
+	@private
+	@within Scheduler
+	@return nil
 ]=]
 function Scheduler:Load()
 	_G.GAdmin.Render(function()
@@ -77,11 +77,11 @@ function Scheduler:Load()
 end
 
 --[=[
-    Adds new interval group.
+	Adds new interval group.
 
-    @param Name string -- Unique name of the group.
-    @within Scheduler
-    @return nil
+	@param Name string -- Unique name of the group.
+	@within Scheduler
+	@return nil
 ]=]
 function Scheduler:AddGroup(Name)
 	if self.Groups[Name] then
@@ -93,11 +93,11 @@ function Scheduler:AddGroup(Name)
 end
 
 --[=[
-    Removes interval group.
+	Removes interval group.
 
-    @param Name string -- Name of the group.
-    @within Scheduler
-    @return nil
+	@param Name string -- Name of the group.
+	@within Scheduler
+	@return nil
 ]=]
 function Scheduler:RemoveGroup(Name)
 	if not self.Groups[Name] then
@@ -109,14 +109,14 @@ function Scheduler:RemoveGroup(Name)
 end
 
 --[=[
-    Inserts new interval.
+	Inserts new interval.
 
-    @param Group string -- Name of the group.
-    @param Id number -- Unique identifier of the interval.
-    @param Function () -> nil -- Function to run.
-    @param Time number -- Time interval.
-    @within Scheduler
-    @return nil
+	@param Group string -- Name of the group.
+	@param Id number -- Unique identifier of the interval.
+	@param Function () -> nil -- Function to run.
+	@param Time number -- Time interval.
+	@within Scheduler
+	@return nil
 ]=]
 function Scheduler:Insert(Group, Id, Function, Time)
 	if not self.Groups[Group] then
@@ -134,12 +134,12 @@ function Scheduler:Insert(Group, Id, Function, Time)
 end
 
 --[=[
-    Removes interval.
+	Removes interval.
 
-    @param Group string -- Name of the group.
-    @param Id number -- Unique identifier of the interval.
-    @within Scheduler
-    @return nil
+	@param Group string -- Name of the group.
+	@param Id number -- Unique identifier of the interval.
+	@within Scheduler
+	@return nil
 ]=]
 function Scheduler:Remove(Group, Id)
 	local Interval, Index = self:Find(Group, Id)
@@ -151,12 +151,12 @@ function Scheduler:Remove(Group, Id)
 end
 
 --[=[
-    Finds interval.
+	Finds interval.
 
-    @param Group string -- Name of the group.
-    @param Id number -- Unique identifier of the interval.
-    @within Scheduler
-    @return Interval, number
+	@param Group string -- Name of the group.
+	@param Id number -- Unique identifier of the interval.
+	@within Scheduler
+	@return Interval, number
 ]=]
 function Scheduler:Find(Group, Id)
 	if not self.Groups[Group] then
@@ -174,12 +174,12 @@ function Scheduler:Find(Group, Id)
 end
 
 --[=[
-    Checks if interval is ready to be called.
+	Checks if interval is ready to be called.
 
-    @param Group string -- Name of the group.
-    @param Id number -- Unique identifier of the interval.
-    @within Scheduler
-    @return boolean
+	@param Group string -- Name of the group.
+	@param Id number -- Unique identifier of the interval.
+	@within Scheduler
+	@return boolean
 ]=]
 function Scheduler:IsReady(Group, Id)
 	local Interval = self:Find(Group, Id)
@@ -191,13 +191,13 @@ function Scheduler:IsReady(Group, Id)
 end
 
 --[=[
-    Calls interval.
+	Calls interval.
 
-    @param Group string -- Name of the group.
-    @param Id number -- Unique identifier of the interval.
-    @param Force boolean -- Forces the interval to run even if interval is on cooldown.
-    @within Scheduler
-    @return nil
+	@param Group string -- Name of the group.
+	@param Id number -- Unique identifier of the interval.
+	@param Force boolean -- Forces the interval to run even if interval is on cooldown.
+	@within Scheduler
+	@return nil
 ]=]
 function Scheduler:Call(Group, Id, Force)
 	local Interval, Index = self:Find(Group, Id)
