@@ -2,7 +2,7 @@
 	@class PlayerAPI
 	@server
 	@tag API
-	Player API for GAdmin. Handles player data and events.
+	Handles player-based actions.
 	
 	Location: `GAdminV2.MainModule.Server.Services.PlayerAPI`
 ]=]
@@ -26,15 +26,16 @@
 
 --[=[
 	@interface PlayerData
+	@field Data {[string]: any} -- Session player data.
+	@field Session {[string]: any} -- Savable player session data.
 	@within PlayerAPI
-	@field Data {[string]: any}
-	@field Session {[string]: any}
 ]=]
 
 --[=[
 	@interface OnMessageOptions
+	@field NoLimit boolean -- Disables command limit.
+	@field NoLog boolean -- Disables logging.
 	@within PlayerAPI
-	@field NoLimit boolean
 ]=]
 
 --[=[
@@ -163,7 +164,7 @@ function Player:Load(API)
 end
 
 --[=[
-	Gets player with given UserId.
+	Gets UserId from player-like variable.
 
 	@param PlayerLike UserLike
 	@within PlayerAPI
@@ -183,7 +184,7 @@ function Player:GetUserId(PlayerLike)
 end
 
 --[=[
-	Gets player data.
+	Gets player's session data.
 
 	@param PlayerLike UserLike
 	@within PlayerAPI
@@ -209,7 +210,7 @@ function Player:GetData(PlayerLike)
 end
 
 --[=[
-	Sets player data.
+	Sets player's session data.
 
 	@param PlayerLike UserLike
 	@param Key string
@@ -241,7 +242,7 @@ function Player:SetData(PlayerLike, Key, Value)
 end
 
 --[=[
-	Log and call commands from specified message.
+	Logs and executes commands from the specified message.
 
 	@param player Player
 	@param Message string
@@ -264,9 +265,11 @@ function Player:OnMessage(player, Message, Options)
 		Message = Success and Filtered:GetNonChatStringForBroadcastAsync() or Filtered
 	}
 	
-	table.insert(Data.ChatLogs, Log)
+	if not Options.NoLog then
+		table.insert(Data.ChatLogs, Log)
+	end
+
 	local Branches = Parser:Parse(player, Message, true)
-	
 	local Success = true
 	local Amount = #Branches or 0
 	

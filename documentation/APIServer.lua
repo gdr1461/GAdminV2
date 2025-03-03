@@ -17,7 +17,7 @@ local Proxy = newproxy(true)
 	@class ServerAPI
 	@server
 	@tag API
-	GAdminV2 Server API.
+	GAdmin API for server-side.
 	
 	Location: `GAdminV2.MainModule.Server.Services.API`
 ]=]
@@ -54,12 +54,26 @@ local Proxy = newproxy(true)
 	@interface BanOptions
 	@field Reason string -- Ban reason.
 	@field PrivateReason string -- Private ban reason.
-	@field Time number -- Ban time.
+	@field Time number | "inf" -- Ban time.
 	@field Moderator number -- Moderator id.
 	@field API boolean -- Use Roblox ban API.
 	@field Locally boolean -- Ban locally.
 	@field ApplyToUniverse boolean -- Apply to universe.
 	@field ExcludeAltAccount boolean -- Exclude alt account.
+	@within ServerAPI
+]=]
+
+--[=[
+	@interface BanData
+	@field Moderator string -- Moderator id.
+	@field Reason string -- Ban reason.
+	@field Time string -- Ban time.
+	@field On string -- When did user get banned.
+	@field API boolean -- Use Roblox ban API.
+	@field Locally boolean -- Ban user on server.
+	@field ApplyToUniverse boolean -- Ban user in every place of the game.
+	@field Type string -- Ban type.
+	@field PrivateReason string -- For moderators only.
 	@within ServerAPI
 ]=]
 
@@ -145,7 +159,7 @@ function API:__DecryptMessageEnum(Topic, Id)
 end
 
 --[=[
-	Set enums for specific topic of MessaginService.
+	Sets enums for specific topic of MessaginService.
 
 	@param Topic string -- Topic to send thru MessagingService
 	@param Enums table -- Compress strings mentioned in Enums to numbers for memory saving.
@@ -182,6 +196,8 @@ end
 --[=[
 	Listens for messages sent thru MessagingService.
 
+	Takes up one Message Subscription slot.
+
 	@param Topic string -- Topic to send thru MessagingService
 	@param Function (Data: MessageData) -> () -- Function to execute when message is received.
 	@within ServerAPI
@@ -203,7 +219,7 @@ function API:ReceiveMessage(Topic, Function)
 end
 
 --[=[
-	Send message using MessagingService.
+	Sends message using MessagingService.
 
 	@param Topic string -- Topic to send thru MessagingService
 	@param Data table -- Data to send thru MessagingService
@@ -269,7 +285,20 @@ end
 --[=[
 	Bans specified player.
 
-	@param UserLike UserLike -- Topic to send thru MessagingService
+	To API ban player, you need to do the following:
+	```lua
+	API:Ban(1556153247, {
+		Reason = "Bully",
+		PrivateReason = "Don't unban.",
+		Time = "inf",
+		Moderator = 549319173,
+		API = true,
+		ApplyToUniverse = true,
+		ExcludeAltAccount = true
+	})
+	```
+	@yields
+	@param UserLike UserLike -- User to ban.
 	@param Options BanOptions -- Ban options.
 	@within ServerAPI
 	@return boolean
@@ -364,7 +393,8 @@ end
 --[=[
 	Unbans specified player.
 
-	@param UserLike UserLike -- Topic to send thru MessagingService
+	@yields
+	@param UserLike UserLike -- User to unban.
 	@param Type "Global" | "Server" -- Type of unban.
 	@within ServerAPI
 	@return boolean
@@ -415,7 +445,8 @@ end
 --[=[
 	Returns ban data of specified player.
 
-	@param UserLike UserLike -- Topic to send thru MessagingService
+	@yields
+	@param UserLike UserLike -- User to get ban data from.
 	@param Type "Global" | "Server" -- Type of unban.
 	@within ServerAPI
 	@return BanData
@@ -434,7 +465,8 @@ end
 --[=[
 	Returns if specified player is banned.
 
-	@param UserLike UserLike -- Topic to send thru MessagingService
+	@yields
+	@param UserLike UserLike -- User to check if banned.
 	@param Type "Global" | "Server" -- Type of unban.
 	@within ServerAPI
 	@return boolean
@@ -453,6 +485,7 @@ end
 --[=[
 	Returns banlist.
 
+	@yields
 	@param Type "Global" | "Server" | "Both" | "Formatted" -- Type of banlist.
 	@within ServerAPI
 	@return table
@@ -592,6 +625,7 @@ end
 
 --[=[
 	Sets new rank for given player.
+	@yields
 	@param player UserLike -- Player to set rank for.
 	@param Rank RankLike -- New rank.
 	@param Server boolean -- Set rank for current server only.

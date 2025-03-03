@@ -1,7 +1,7 @@
 --[=[
 	@class Popup
 	@tag Shared
-	Popup/Notification system for GAdmin.
+	Notification system for GAdmin users.
 	
 	Location: `GAdminV2.MainModule.Shared.Services.Popup`
 ]=]

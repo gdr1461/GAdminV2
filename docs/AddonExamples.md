@@ -4,7 +4,7 @@ sidebar_position: 6
 
 # Addon Examples
 
-:::warning
+:::warning construction
 This page is under construction.
 :::
 

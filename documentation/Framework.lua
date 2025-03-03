@@ -3,7 +3,7 @@
 	@client
 	@tag UI
 
-	UI Main Framework.
+	GAdmin UI framework loader.
 	
 	Location: `GAdminV2.MainModule.Client.Services.Framework`
 ]=]
@@ -156,7 +156,7 @@ function Framework:Load()
 end
 
 --[=[
-	Triggers a method of a UI Place.
+	Triggers a method of an UI Place.
 
 	@param Data PlaceTriggerData
 

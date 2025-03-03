@@ -8,7 +8,7 @@ GAdminV2 doesn't require unpacking anything. Just insert **GAdminV2.rbxm** into 
 <br/>
 # Guide
 1. Download the latest version of GAdminV2 [from GitHub](https://github.com/gdr1461/GAdminV2/releases).
-:::warning
+:::warning version
 It is recommended to download a release that doesn't have the `pre-release` tag.
 :::
 2. Place GAdminV2 inside `ServerScriptService`.
@@ -26,6 +26,6 @@ If you want to use the in-game server-side executor, follow the steps below:
 :::info
 `LoadStringEnabled` is essential for the executor to work because it relies on that Roblox feature.
 :::
-:::warning
+:::danger
 Enabling the `LoadStringEnabled` property comes with potential downsides. Malicious code can now execute strings as code directly into your game using `loadstring()`. Be cautious with this setting.
 :::

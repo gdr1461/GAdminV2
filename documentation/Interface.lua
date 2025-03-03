@@ -2,7 +2,7 @@
 	@class Interface
 	@client
 	@tag UI
-	User Interface for GAdmin.
+	Main logic controller for GAdmin UI.
 	
 	Location: `GAdminV2.MainModule.Client.Services.Framework.Interface`
 ]=]
@@ -133,6 +133,7 @@ Interface.UI = UI.Gui
 --[=[
 	Currently hovered object in the panel.
 
+	@private
 	@prop __Hovered CurrentlyHovered
 	@within Interface
 ]=]
@@ -145,6 +146,7 @@ Interface.__Hovered = {
 --[=[
 	Tweens cache.
 
+	@private
 	@prop __Tweens InterfaceTweens
 	@within Interface
 ]=]
@@ -169,7 +171,8 @@ Interface.Popup = require(Main.Shared.Services.Popup)
 
 --[=[
 	OnLocationChange listeners.
-
+	
+	@private
 	@prop Listeners table
 	@within Interface
 ]=]
@@ -178,6 +181,7 @@ Interface.Listeners = {}
 --[=[
 	Loaded hover data of objects.
 
+	@private
 	@prop Hovers table
 	@within Interface
 ]=]
@@ -186,6 +190,7 @@ Interface.Hovers = {}
 --[=[
 	Current location of the interface that the user is on.
 
+	@readonly
 	@prop Location Location
 	@within Interface
 ]=]
@@ -225,6 +230,7 @@ end
 --[=[
 	Loads the interface.
 	
+	@private
 	@within Interface
 	@return nil
 ]=]
@@ -404,7 +410,7 @@ function Interface:Load()
 end
 
 --[=[
-	Relocates the interface.
+	Relocates the interface to the screen center.
 	@private
 	
 	@within Interface
@@ -484,7 +490,7 @@ function Interface:Close(FromIcon)
 end
 
 --[=[
-	Sets the state of CoreGui.
+	Sets the state of specified CoreGui.
 
 	@param Name string -- The name of the CoreGui.
 	@param State boolean -- The state of the CoreGui.
@@ -502,7 +508,7 @@ function Interface:SetGuiCoreEnabled(Name, State)
 end
 
 --[=[
-	Sets the listener for location change.
+	Sets the listener for when location changes.
 
 	@param Function (Location: Location) -> () -- The function to set.
 	@within Interface
@@ -664,7 +670,7 @@ end
 	Sets the hover for an object.
 	
 	@param Object GuiObject -- The object to set the hover for.
-	@param Follow (Object: GuiObject) -> UDim2 -- The function to follow the object.
+	@param Follow (Object: GuiObject) -> UDim2 -- The function to get current object's position from.
 	
 	@within Interface
 	@return nil
@@ -679,7 +685,11 @@ function Interface:SetHoverConfig(Object, Follow)
 end
 
 --[=[
-	Sets rank requirment to access GuiObject.
+	Sets rank requirment from Restrictions module in the Settings instance to access GuiObject.
+	```lua
+	Interface:ConfigBlock(Button, "Main", "Settings")
+	```
+
 	@param Button GuiObject -- The button to set the rank requirement for.
 	@param CategoryName string -- The category name of the rank requirement.
 	@param Key string -- The key of the rank requirement.
@@ -702,6 +712,13 @@ end
 
 --[=[
 	Blocks the button for the rank requirement.
+
+	Same as ConfigBlock, but gives more freedom of a required rank.
+	```lua
+	Interface:Block(Button, 4)
+	Interface:Block(Button, "Manager")
+	```
+
 	@param Button GuiObject -- The button to block.
 	@param RankLike RankLike -- The minimum rank to access button.
 	@within Interface
@@ -747,7 +764,7 @@ function Interface:Block(Button, RankLike)
 end
 
 --[=[
-	Unblocks the button.
+	Removes rank requirements from specified button.
 	@param Button GuiObject -- The button to unblock.
 	@within Interface
 	@return nil
@@ -772,7 +789,7 @@ function Interface:UnBlock(Button)
 end
 
 --[=[
-	Checks the interface.
+	Reloads top bar icon of the interface.
 	@private
 	@within Interface
 	@return nil
@@ -813,7 +830,19 @@ function Interface:Check()
 end
 
 --[=[
-	Same as SetLocation, but gives more freedom for what to show.
+	Works the same as `:SetLocation()`, but for Places that have a `:Set()` method.
+
+	```lua
+	Interface:Refresh({
+		Place = "_Logs",
+		Page = 1,
+		MaxPages = 1,
+		Arguments = {
+			Type = "Chat"
+		}
+	})
+	```
+
 	@param Data ArgumentiveLocation | nil -- The location to show.
 	@within Interface
 	@return nil
@@ -915,7 +944,7 @@ function Interface:Reload(Data)
 end
 
 --[=[
-	Returns the location name.
+	Returns the current Place the user is in.
 	@within Interface
 	@return string
 ]=]
@@ -924,10 +953,10 @@ function Interface:GetLocation()
 end
 
 --[=[
-	Sets the location.
+	Sets the current interface location to specified one.
 	@param Location string -- The location to set.
 	@param Page number | nil -- The page to set.
-	@param OpenOnClosed boolean | nil -- Open interface if it is closed.
+	@param OpenOnClosed boolean | nil -- Open panel if it is closed.
 	@within Interface
 	@return nil
 ]=]
@@ -968,6 +997,11 @@ end
 
 --[=[
 	Sets the page of the location.
+
+	:::note
+	The page is limited to the maximum number of pages in the location.
+	:::
+
 	@param Page number -- The page to set.
 	@within Interface
 	@return nil

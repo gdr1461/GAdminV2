@@ -1,53 +1,53 @@
 --[=[
-    @class UI
-    @client
-    @tag UI
-    Main UI handler of GAdmin.
+	@class UI
+	@client
+	@tag UI
+	UI Utils for GAdmin.
 
-    Location: `GAdminV2.MainModule.Client.Services.UI`
+	Location: `GAdminV2.MainModule.Client.Services.UI`
 ]=]
 
 --[=[
-    @interface UI
-    @field __type string
-    @field Popups number
-    @field Gui ScreenGui
-    @field __Loadings {LoadingTable}
-    @field Whitelist {string}
-    @field __ThemeMemory {[GuiObject]: Color3}
-    @field __ThemeActive boolean
-    @field __ThemeConnections {RBXScriptConnection}
-    @field Theme Theme
-    @field RenderStepped RBXScriptConnection
-    @field __CheckLoadings () -> nil
-    @field __SetTheme (Object: GuiObject) -> nil
-    @field RefreshTheme () -> nil
-    @field GetTheme (Color: Color3) -> Color3
-    @field SetTheme (Hue: number, Saturation: number, Value: number) -> nil
-    @field ClearTheme () -> nil
-    @field IsLoading (Frame: Frame) -> boolean
-    @field GetLoading (Frame: Frame) -> number, LoadingTable
-    @field CreatePlayer (Template: Frame, UserId: number, Format: string) -> Frame
-    @field SetLoading (Frame: Frame, Check: () -> boolean, Options: table) -> nil
-    @field BreakLoading (Frame: Frame) -> nil
-    @within UI
+	@interface UI
+	@field __type string
+	@field Popups number
+	@field Gui ScreenGui
+	@field __Loadings {LoadingTable}
+	@field Whitelist {string}
+	@field __ThemeMemory {[GuiObject]: Color3}
+	@field __ThemeActive boolean
+	@field __ThemeConnections {RBXScriptConnection}
+	@field Theme Theme
+	@field RenderStepped RBXScriptConnection
+	@field __CheckLoadings () -> nil
+	@field __SetTheme (Object: GuiObject) -> nil
+	@field RefreshTheme () -> nil
+	@field GetTheme (Color: Color3) -> Color3
+	@field SetTheme (Hue: number, Saturation: number, Value: number) -> nil
+	@field ClearTheme () -> nil
+	@field IsLoading (Frame: Frame) -> boolean
+	@field GetLoading (Frame: Frame) -> number, LoadingTable
+	@field CreatePlayer (Template: Frame, UserId: number, Format: string) -> Frame
+	@field SetLoading (Frame: Frame, Check: () -> boolean, Options: table) -> nil
+	@field BreakLoading (Frame: Frame) -> nil
+	@within UI
 ]=]
 
 --[=[
-    @interface LoadingTable
-    @field Frame Frame -- The frame to load.
-    @field Loading Frame -- The loading frame.
-    @field Tween Tween -- The tween of the loading.
-    @field Check () -> boolean -- The check to run.
-    @within UI
+	@interface LoadingTable
+	@field Frame Frame -- The frame to load.
+	@field Loading Frame -- The loading frame.
+	@field Tween Tween -- The tween of the loading.
+	@field Check () -> boolean -- The check to run.
+	@within UI
 ]=]
 
 --[=[
-    @interface Theme
-    @field Hue number
-    @field Saturation number
-    @field Value number
-    @within UI
+	@interface Theme
+	@field Hue number
+	@field Saturation number
+	@field Value number
+	@within UI
 ]=]
 
 --== << Services >>
@@ -74,70 +74,70 @@ UI.__type = "GAdmin UI"
 UI.__metatable = "[GAdmin UI]: Metatable methods are restricted."
 
 --[=[
-    Amount of popups user got.
+	Amount of popups user got.
 
-    @prop Popups number
-    @within UI
+	@prop Popups number
+	@within UI
 ]=]
 UI.Popups = 0
 
 --[=[
-    Main ScreenGui of the panel.
+	Main ScreenGui of the panel.
 
-    @prop Gui ScreenGui
-    @within UI
+	@prop Gui ScreenGui
+	@within UI
 ]=]
 UI.Gui = Gui
 
 --[=[
-    Current loading frames in the UI.
+	Current loading frames in the UI.
 
-    @prop __Loadings {LoadingTable}
-    @private
-    @within UI
+	@prop __Loadings {LoadingTable}
+	@private
+	@within UI
 ]=]
 UI.__Loadings = {}
 
 --[=[
-    Whitelist of UI objects to theme.
+	Whitelist of UI objects to theme.
 
-    @prop Whitelist {string}
-    @within UI
+	@prop Whitelist {string}
+	@within UI
 ]=]
 UI.Whitelist = {"CanvasGroup", "TextLabel", "TextButton", "ImageButton", "ImageLabel", "Frame", "ScrollingFrame", "TextBox", "VideoFrame", "ViewportFrame"}
 
 --[=[
-    GuiObject colors before theme.
+	GuiObject colors before theme.
 
-    @prop __ThemeMemory {[GuiObject]: Color3}
-    @private
-    @within UI
+	@prop __ThemeMemory {[GuiObject]: Color3}
+	@private
+	@within UI
 ]=]
 UI.__ThemeMemory = nil
 
 --[=[
-    If the theme is active.
+	If the theme is active.
 
-    @prop __ThemeActive boolean
-    @private
-    @within UI
+	@prop __ThemeActive boolean
+	@private
+	@within UI
 ]=]
 UI.__ThemeActive = false
 
 --[=[
-    Theme connections.
+	Theme connections.
 
-    @prop __ThemeConnections {RBXScriptConnection}
-    @private
-    @within UI
+	@prop __ThemeConnections {RBXScriptConnection}
+	@private
+	@within UI
 ]=]
 UI.__ThemeConnections = {}
 
 --[=[
-    Current theme of the UI.
+	Current theme of the UI.
 
-    @prop Theme Theme
-    @within UI
+	@prop Theme Theme
+	@within UI
 ]=]
 UI.Theme = {
 	Hue = nil,
@@ -150,9 +150,9 @@ repeat
 until _G.GAdmin
 
 --[=[
-    @prop RenderStepped RBXScriptConnection
-    @private
-    @within UI
+	@prop RenderStepped RBXScriptConnection
+	@private
+	@within UI
 ]=]
 UI.RenderStepped = _G.GAdmin.Render(function()
 	UI:__CheckLoadings()
@@ -171,11 +171,11 @@ function UI:__newindex(Key, Value)
 end
 
 --[=[
-    Check loadings and remove completed ones.
+	Check loadings and remove completed ones.
 
-    @private
-    @within UI
-    @return nil
+	@private
+	@within UI
+	@return nil
 ]=]
 function UI:__CheckLoadings()
 	local Theme = self:GetTheme(Color3.new(0.12549, 0.156863, 0.25098))
@@ -205,12 +205,12 @@ function UI:__CheckLoadings()
 end
 
 --[=[
-    Set theme of the UI Object.
+	Set theme of the UI Object.
 
-    @param Object GuiObject -- The object to set theme of.
-    @private
-    @within UI
-    @return nil
+	@param Object GuiObject -- The object to set theme of.
+	@private
+	@within UI
+	@return nil
 ]=]
 function UI:__SetTheme(Object)
 	if Object:GetAttribute("GA_ConstantTheme") then
@@ -222,10 +222,10 @@ function UI:__SetTheme(Object)
 end
 
 --[=[
-    Refresh theme of the UI.
+	Refresh theme of the UI.
 
-    @within UI
-    @return nil
+	@within UI
+	@return nil
 ]=]
 function UI:RefreshTheme()
 	self.__ThemeActive = true
@@ -233,11 +233,11 @@ function UI:RefreshTheme()
 end
 
 --[=[
-    Get theme of the UI.
+	Get theme of the UI.
 
-    @param Color Color3 -- The color to get theme of.
-    @within UI
-    @return Color3
+	@param Color Color3 -- The color to get theme of.
+	@within UI
+	@return Color3
 ]=]
 function UI:GetTheme(Color)
 	if not Color then
@@ -262,13 +262,13 @@ function UI:GetTheme(Color)
 end
 
 --[=[
-    Set theme of the UI.
+	Set theme of the UI.
 
-    @param Hue number -- The hue of the theme.
-    @param Saturation number -- The saturation of the theme.
-    @param Value number -- The value of the theme.
-    @within UI
-    @return nil
+	@param Hue number -- The hue of the theme.
+	@param Saturation number -- The saturation of the theme.
+	@param Value number -- The value of the theme.
+	@within UI
+	@return nil
 ]=]
 function UI:SetTheme(Hue, Saturation, Value)
 	--Hue = Hue and Hue + 1 or nil
@@ -328,10 +328,10 @@ function UI:SetTheme(Hue, Saturation, Value)
 end
 
 --[=[
-    Clear theme of the UI.
+	Clear theme of the UI.
 
-    @within UI
-    @return nil
+	@within UI
+	@return nil
 ]=]
 function UI:ClearTheme()
 	if not self.__ThemeActive then
@@ -356,11 +356,11 @@ function UI:ClearTheme()
 end
 
 --[=[
-    Check if the frame is loading.
+	Check if the frame is loading.
 
-    @param Frame Frame -- The frame to check.
-    @within UI
-    @return boolean
+	@param Frame Frame -- The frame to check.
+	@within UI
+	@return boolean
 ]=]
 function UI:IsLoading(Frame)
 	local Index, Loading = self:GetLoading(Frame)
@@ -368,11 +368,11 @@ function UI:IsLoading(Frame)
 end
 
 --[=[
-    Get loading of the frame.
+	Get loading of the frame.
 
-    @param Frame Frame -- The frame to get loading of.
-    @within UI
-    @return number, LoadingTable
+	@param Frame Frame -- The frame to get loading of.
+	@within UI
+	@return number, LoadingTable
 ]=]
 function UI:GetLoading(Frame)
 	for i, Loading in ipairs(self.__Loadings) do
@@ -385,13 +385,13 @@ function UI:GetLoading(Frame)
 end
 
 --[=[
-    Create a new player frame from template.
-    @param Template Frame -- The template to create the player frame from.
-    @param UserId number -- The user id of the player.
-    @param Format string -- The format of the username.
+	Create a new player frame from template.
+	@param Template Frame -- The template to create the player frame from.
+	@param UserId number -- The user id of the player.
+	@param Format string -- The format of the username.
 
-    @within UI
-    @return Frame
+	@within UI
+	@return Frame
 ]=]
 function UI:CreatePlayer(Template, UserId, Format)
 	Format = Format or "%s"
@@ -427,13 +427,13 @@ function UI:CreatePlayer(Template, UserId, Format)
 end
 
 --[=[
-    Set loading of the frame.
+	Set loading of the frame.
 
-    @param Frame Frame -- The frame to set loading of.
-    @param Check () -> boolean -- The check to run. If `true`, will remove the loading.
-    @param Options table -- The options to set.
-    @within UI
-    @return nil
+	@param Frame Frame -- The frame to set loading of.
+	@param Check () -> boolean -- The check to run. If `true`, will remove the loading.
+	@param Options table -- The options to set.
+	@within UI
+	@return nil
 ]=]
 function UI:SetLoading(Frame, Check, Options)
 	if self:IsLoading(Frame) then
@@ -485,11 +485,11 @@ function UI:SetLoading(Frame, Check, Options)
 end
 
 --[=[
-    Break loading of the frame.
+	Break loading of the frame.
 
-    @param Frame Frame -- The frame to break loading of.
-    @within UI
-    @return nil
+	@param Frame Frame -- The frame to break loading of.
+	@within UI
+	@return nil
 ]=]
 function UI:BreakLoading(Frame)
 	local Index, Loading = self:GetLoading(Frame)
