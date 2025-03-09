@@ -80,6 +80,11 @@
 	@within Interface
 ]=]
 
+--[=[
+	@type TriggerData any | "ENUM.DEFAULT_ARGS" | "ENUM.PAGE_ARGS"
+	@within Interface
+]=]
+
 --== << Services >>
 local StarterGui = game:GetService("StarterGui")
 local TextService = game:GetService("TextService")
@@ -521,9 +526,17 @@ end
 --[=[
 	Triggers a method of a UI Place.
 
+	```lua
+	Interface:TriggerDataMethod("Main", "RefreshHistory", "ENUM.PAGE_ARGS", 2)
+	```
+
+	```lua
+	Interface:TriggerDataMethod("Ranks", "RefreshRanks", "ENUM.DEFAULT_ARGS")
+	```
+
 	@param Place string -- The place to trigger the method.
 	@param Method string -- The method to trigger.
-	@param ... any -- The arguments to pass.
+	@param ... TriggerData -- The arguments to pass.
 	
 	@within Interface
 	@return unknown
@@ -543,6 +556,8 @@ function Interface:TriggerDataMethod(Place, Method, ...)
 	local Arguments = {...}
 	if Arguments[1] == "ENUM.DEFAULT_ARGS" then
 		Arguments = {self.UI, self.UI.MainFrame.Places:FindFirstChild(Place), self}
+	elseif Arguments[1] == "ENUM.PAGE_ARGS" then
+		Arguments = {self.UI.MainFrame.Places:FindFirstChild(Place).Pages[Arguments[2]], self}
 	end
 	
 	return Data[Method](Data, unpack(Arguments))
@@ -632,6 +647,10 @@ end
 
 --[=[
 	Sets the hover for an object.
+
+	```lua
+	Interface:SetHover(Button, "Click to open the settings.")
+	```
 	
 	@param Object GuiObject -- The object to set the hover for.
 	@param RawInfo string | () -> string -- The content of the hover.
@@ -668,6 +687,12 @@ end
 
 --[=[
 	Sets the hover for an object.
+
+	```lua
+	Interface:SetHoverConfig(Button, function(Object)
+		return Object.Position
+	end)
+	```
 	
 	@param Object GuiObject -- The object to set the hover for.
 	@param Follow (Object: GuiObject) -> UDim2 -- The function to get current object's position from.
@@ -682,6 +707,9 @@ function Interface:SetHoverConfig(Object, Follow)
 	end
 	
 	self.Hovers[Object] = Follow
+	Object.Destroying:Once(function()
+		self.Hovers[Object] = nil
+	end)
 end
 
 --[=[

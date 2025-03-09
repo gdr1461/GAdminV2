@@ -27,7 +27,7 @@
 	@interface PlaceTriggerData
 	@field Place string -- Name of the UI Place
 	@field Method string -- Name of the method to trigger
-	@field Arguments table -- Arguments to pass to the method
+	@field Arguments {TriggerData} -- Arguments to pass to the method
 	@within Framework
 ]=]
 
@@ -157,6 +157,14 @@ end
 
 --[=[
 	Triggers a method of an UI Place.
+
+	```lua
+	Framework:TriggerDataMethod({
+		Place = "Main",
+		Method = "RefreshRanks",
+		Arguments = {"ENUM.DEFAULT_ARGS"}
+	})
+	```
 
 	@param Data PlaceTriggerData
 

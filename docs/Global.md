@@ -57,3 +57,38 @@ local BanData = _G.GAdmin.__GetBanData({
     "No reason." -- ModHint.
 })
 ```
+
+## Client
+### Path
+A shortcut to the `GAdminShared` path for easier access to the main folder (e.g., `ReplicatedStorage.GAdminShared`).
+
+### Render
+GAdmin's [Renderer](/api/Render)
+
+### __GetBanData
+Used locally in the system to retrieve dictionary-based ban data from an array.
+
+```lua
+local BanData = _G.GAdmin.__GetBanData({
+    00000, -- Moderator ID
+    "No reason.", -- Reason
+    "00000000", -- The time in Unix timestamp format, converted to a string.
+    "00000000", -- The Unix timestamp of when a user was banned.
+    nil, -- Indicates whether a user has been banned locally (deprecated property).
+    true, -- ApplyToUniverse – used for the Roblox Ban API.
+    nil, -- The type of ban (Global/Server) (deprecated property)..
+    "No reason." -- ModHint.
+})
+```
+
+### Framework
+GAdmin's [Framework](/api/Framework)
+
+### Scheduler
+GAdmin's [Scheduler](/api/Scheduler)
+
+### UseTheme
+Boolean that tells the system whether the theme should be applied to the UI panel when the Theme setting is changed.
+
+### Theme
+[Theme Data](/api/UI#Theme)
