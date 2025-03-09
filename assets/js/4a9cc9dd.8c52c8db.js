@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[810],{84410:e=>{e.exports=JSON.parse('{"sourceUrl":"https://github.com/gdr1461/GAdminV2/blob/main","baseUrl":"/GAdminV2/","classOrder":["MainModule","ServerAPI","PlayerAPI","RankService","Popup","Scheduler","Framework","Interface","UI"],"apiCategories":[]}')}}]);
