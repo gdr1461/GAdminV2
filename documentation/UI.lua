@@ -341,6 +341,14 @@ function UI:BindObjectToTheme(GuiObject)
 	end
 	
 	self.__ThemeObjects[GuiObject] = {}
+	for i, Object in ipairs(Gui:GetDescendants()) do
+		if not Object:IsA("GuiObject") then
+			continue
+		end
+
+		self:__SetTheme(Object)
+	end
+
 	table.insert(self.__ThemeObjects[GuiObject], self.Gui.DescendantAdded:Connect(function(Object)
 		if not Object:IsA("GuiObject") or not self.__ThemeActive then
 			return
