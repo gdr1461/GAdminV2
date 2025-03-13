@@ -113,7 +113,7 @@ UI.Whitelist = {"CanvasGroup", "TextLabel", "TextButton", "ImageButton", "ImageL
 	@private
 	@within UI
 ]=]
-UI.__ThemeMemory = nil
+UI.__ThemeMemory = {}
 
 --[=[
 	If the theme is active.
@@ -341,7 +341,7 @@ function UI:BindObjectToTheme(GuiObject)
 	end
 	
 	self.__ThemeObjects[GuiObject] = {}
-	for i, Object in ipairs(Gui:GetDescendants()) do
+	for i, Object in ipairs(GuiObject:GetDescendants()) do
 		if not Object:IsA("GuiObject") then
 			continue
 		end
