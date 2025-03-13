@@ -125,13 +125,13 @@ UI.__ThemeMemory = nil
 UI.__ThemeActive = false
 
 --[=[
-	Theme connections.
+	Theme connections of the UI.
 
-	@prop __ThemeConnections {RBXScriptConnection}
+	@prop __ThemeObjects {[GuiObject]: {RBXScriptConnection}}
 	@private
 	@within UI
 ]=]
-UI.__ThemeConnections = {}
+UI.__ThemeObjects = {}
 
 --[=[
 	Current theme of the UI.
@@ -262,7 +262,7 @@ function UI:GetTheme(Color)
 end
 
 --[=[
-	Set theme of the UI.
+	Set theme of the UIs.
 
 	@param Hue number -- The hue of the theme.
 	@param Saturation number -- The saturation of the theme.
@@ -286,42 +286,19 @@ function UI:SetTheme(Hue, Saturation, Value)
 		self.__ThemeMemory = {}
 	end
 	
-	for i, Connection in ipairs(self.__ThemeConnections) do
-		Connection:Disconnect()
-	end
-	
-	table.insert(self.__ThemeConnections, self.Gui.DescendantAdded:Connect(function(Object)
-		if not Object:IsA("GuiObject") then
-			return
-		end
-		
-		self:__SetTheme(Object)
-		
-		--pcall(function()
-		--	self.__ThemeMemory[Object] = Object.BackgroundColor3
-		--	self:__SetTheme(Object)
-		--end)
-	end))
-	
-	table.insert(self.__ThemeConnections, self.Gui.DescendantRemoving:Connect(function(Object)
-		if not self.__ThemeMemory[Object] then
-			return
-		end
+	for Gui, Connections in pairs(self.__ThemeObjects) do
+		for i, Object in ipairs(Gui:GetDescendants()) do
+			if not Object:IsA("GuiObject") then
+				continue
+			end
 
-		self.__ThemeMemory[Object] = nil
-	end))
-	
-	for i, Object in ipairs(self.Gui:GetDescendants()) do
-		if not Object:IsA("GuiObject") then
-			continue
+			self:__SetTheme(Object)
+
+			--pcall(function()
+			--	self.__ThemeMemory[Object] = self.__ThemeMemory[Object] or Object.BackgroundColor3
+			--	self:__SetTheme(Object)
+			--end)
 		end
-		
-		self:__SetTheme(Object)
-		
-		--pcall(function()
-		--	self.__ThemeMemory[Object] = self.__ThemeMemory[Object] or Object.BackgroundColor3
-		--	self:__SetTheme(Object)
-		--end)
 	end
 	
 	--print(self.__ThemeMemory)
@@ -338,10 +315,6 @@ function UI:ClearTheme()
 		return
 	end
 	
-	for i, Connection in ipairs(self.__ThemeConnections) do
-		Connection:Disconnect()
-	end
-	
 	self.__ThemeActive = false
 	for Object, Color in pairs(self.__ThemeMemory) do
 		if not Object or not Object.Parent then
@@ -353,6 +326,55 @@ function UI:ClearTheme()
 			Object.BackgroundColor3 = Color
 		end)
 	end
+end
+
+--[=[
+	Bind object to theme change.
+
+	@param GuiObject GuiObject -- The object to bind to the theme.
+	@within UI
+	@return nil
+]=]
+function UI:BindObjectToTheme(GuiObject)
+	if self.__ThemeObjects[GuiObject] then
+		return
+	end
+	
+	self.__ThemeObjects[GuiObject] = {}
+	table.insert(self.__ThemeObjects[GuiObject], self.Gui.DescendantAdded:Connect(function(Object)
+		if not Object:IsA("GuiObject") or not self.__ThemeActive then
+			return
+		end
+
+		self:__SetTheme(Object)
+	end))
+
+	table.insert(self.__ThemeObjects[GuiObject], self.Gui.DescendantRemoving:Connect(function(Object)
+		if not self.__ThemeMemory[Object] or not self.__ThemeActive then
+			return
+		end
+
+		self.__ThemeMemory[Object] = nil
+	end))
+end
+
+--[=[
+	Unbind object from theme change.
+
+	@param GuiObject GuiObject -- The object to unbind from the theme.
+	@within UI
+	@return nil
+]=]
+function UI:UnBindObjectFromTheme(GuiObject)
+	if not self.__ThemeObjects[GuiObject] then
+		return
+	end
+	
+	for i, Connection in ipairs(self.__ThemeObjects[GuiObject]) do
+		Connection:Disconnect()
+	end
+	
+	self.__ThemeObjects[GuiObject] = nil
 end
 
 --[=[
