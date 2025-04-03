@@ -14,13 +14,13 @@ You can access GAdmin by typing `_G.GAdmin` on either the server or client side.
 Global properties of GAdmin on the server side:
 ```lua
 {
-    API = ServerAPI,
-    Modified = true,
-    Module = MainModule,
-    Path = MainModuleScript,
-    Render: Render,
-    Scheduler: Scheduler,
-    __GetBanData: (RawBanData: table) -> BanData
+	API = ServerAPI,
+	Modified = true,
+	Module = MainModule,
+	Path = MainModuleScript,
+	Render: Render,
+	Scheduler: Scheduler,
+	__GetBanData: (RawBanData: table) -> BanData
 }
 ```
 
@@ -47,14 +47,14 @@ Used locally in the system to retrieve dictionary-based ban data from an array.
 
 ```lua
 local BanData = _G.GAdmin.__GetBanData({
-    00000, -- Moderator ID
-    "No reason.", -- Reason
-    "00000000", -- The time in Unix timestamp format, converted to a string.
-    "00000000", -- The Unix timestamp of when a user was banned.
-    nil, -- Indicates whether a user has been banned locally (deprecated property).
-    true, -- ApplyToUniverse – used for the Roblox Ban API.
-    nil, -- The type of ban (Global/Server) (deprecated property)..
-    "No reason." -- ModHint.
+	00000, -- Moderator ID
+	"No reason.", -- Reason
+	"00000000", -- The time in Unix timestamp format, converted to a string.
+	"00000000", -- The Unix timestamp of when a user was banned.
+	nil, -- Indicates whether a user has been banned locally (deprecated property).
+	true, -- ApplyToUniverse – used for the Roblox Ban API.
+	nil, -- The type of ban (Global/Server) (deprecated property)..
+	"No reason." -- ModHint.
 })
 ```
 
@@ -70,14 +70,14 @@ Used locally in the system to retrieve dictionary-based ban data from an array.
 
 ```lua
 local BanData = _G.GAdmin.__GetBanData({
-    00000, -- Moderator ID
-    "No reason.", -- Reason
-    "00000000", -- The time in Unix timestamp format, converted to a string.
-    "00000000", -- The Unix timestamp of when a user was banned.
-    nil, -- Indicates whether a user has been banned locally (deprecated property).
-    true, -- ApplyToUniverse – used for the Roblox Ban API.
-    nil, -- The type of ban (Global/Server) (deprecated property)..
-    "No reason." -- ModHint.
+	00000, -- Moderator ID
+	"No reason.", -- Reason
+	"00000000", -- The time in Unix timestamp format, converted to a string.
+	"00000000", -- The Unix timestamp of when a user was banned.
+	nil, -- Indicates whether a user has been banned locally (deprecated property).
+	true, -- ApplyToUniverse – used for the Roblox Ban API.
+	nil, -- The type of ban (Global/Server) (deprecated property)..
+	"No reason." -- ModHint.
 })
 ```
 

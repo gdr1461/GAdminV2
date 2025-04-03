@@ -1,11 +1,11 @@
 --[=[
-    @class Render
-    A function that allows you to run a function every frame. This is useful for rendering things that need to be updated every frame.
+	@class Render
+	A function that allows you to run a function every frame. This is useful for rendering things that need to be updated every frame.
 ]=]
 
 --[=[
-    @type Render (Callback: (Delta: number) -> nil) -> {Disconnect: () -> nil}
-    @within Render
+	@type Render (Callback: (Delta: number) -> nil) -> {Disconnect: () -> nil}
+	@within Render
 ]=]
 
 local RunService = game:GetService("RunService")

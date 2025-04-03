@@ -5,15 +5,15 @@ gitSourceBranch = "main"
 changelog = true
 
 classOrder = [
-    "MainModule",
+	"MainModule",
 	"ServerAPI",
-    "PlayerAPI",
-    "RankService",
-    "Popup",
-    "Scheduler",
-    "Framework",
-    "Interface",
-    "UI"
+	"PlayerAPI",
+	"RankService",
+	"Popup",
+	"Scheduler",
+	"Framework",
+	"Interface",
+	"UI"
 ]
 
 [docusaurus]

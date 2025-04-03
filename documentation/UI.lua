@@ -24,6 +24,8 @@
 	@field RefreshTheme () -> nil
 	@field GetTheme (Color: Color3) -> Color3
 	@field SetTheme (Hue: number, Saturation: number, Value: number) -> nil
+	@field BindObjectToTheme (GuiObject: GuiObject) -> nil
+	@field UnBindObjectFromTheme (GuiObject: GuiObject) -> nil
 	@field ClearTheme () -> nil
 	@field IsLoading (Frame: Frame) -> boolean
 	@field GetLoading (Frame: Frame) -> number, LoadingTable

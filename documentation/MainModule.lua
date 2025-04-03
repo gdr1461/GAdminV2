@@ -1,20 +1,21 @@
 --[=[
-    @class MainModule
-    @server
-    @tag Core
-    Main module that loads GAdminV2.
+	@class MainModule
+	@server
+	@tag Core
+	Main module that loads GAdminV2.
 ]=]
 
 --[=[
-    @interface MainModule
-    @field __type string
-    @field __version string
-    @field Loaded boolean
-    @field IsServer boolean
-    @field Load () -> nil
-    @field Replace () -> nil
-    @field Settings () -> boolean
-    @within MainModule
+	@interface MainModule
+	@field __type string
+	@field __version string
+	@field Loaded boolean
+	@field IsServer boolean
+	@field Load () -> nil
+	@field GetData () -> table
+	@field Replace () -> nil
+	@field Settings () -> boolean
+	@within MainModule
 ]=]
 
 --== << Services >>
@@ -41,31 +42,31 @@ local GAdmin = getmetatable(Proxy)
 GAdmin.__type = "GAdmin v2"
 
 --[=[
-    The current version of GAdminV2 in use.
+	The current version of GAdminV2 in use.
 
-    @prop __version string
-    @within MainModule
+	@prop __version string
+	@within MainModule
 ]=]
 GAdmin.__version = "BETA-v2.0.0"
 
 GAdmin.__metatable = "[GAdmin]: Metatable methods are restricted."
 
 --[=[
-    Indicates whether GAdminV2 has been loaded.
+	Indicates whether GAdminV2 has been loaded.
 
-    @prop Loaded boolean
-    @within MainModule
+	@prop Loaded boolean
+	@within MainModule
 ]=]
 GAdmin.Loaded = false
 
 --[=[
-    Checks if the main module has been required on the server side.
+	Checks if the main module has been required on the server side.
 
-    This will always be `true`, as it does not function on the client side
+	This will always be `true`, as it does not function on the client side
 
-    @private
-    @prop IsServer boolean
-    @within MainModule
+	@private
+	@prop IsServer boolean
+	@within MainModule
 ]=]
 GAdmin.IsServer = RunService:IsServer()
 if not GAdmin.IsServer then
@@ -82,11 +83,11 @@ function GAdmin:__index(Key)
 end
 
 --[=[
-    Initializes GAdminV2 systems.
+	Initializes GAdminV2 systems.
 
-    @private
-    @within MainModule
-    @return nil
+	@private
+	@within MainModule
+	@return nil
 ]=]
 function GAdmin:Load()
 	if self.Loaded then
@@ -163,11 +164,22 @@ function GAdmin:Load()
 end
 
 --[=[
-    Creates the `GAdminShared` folder and places it in `ReplicatedStorage`.
+	Returns the data table containing all the data used by GAdminV2.
 
-    @private
-    @within MainModule
-    @return nil
+	@private
+	@within MainModule
+	@return table
+]=]
+function GAdmin:GetData()
+	return Data
+end
+
+--[=[
+	Creates the `GAdminShared` folder and places it in `ReplicatedStorage`.
+
+	@private
+	@within MainModule
+	@return nil
 ]=]
 function GAdmin:Replace()
 	local Folder = Instance.new("Folder")
@@ -186,11 +198,11 @@ function GAdmin:Replace()
 end
 
 --[=[
-    Verifies that all settings are loaded correctly.
+	Verifies that all settings are loaded correctly.
 
-    @private
-    @within MainModule
-    @return boolean
+	@private
+	@within MainModule
+	@return boolean
 ]=]
 function GAdmin:Settings()
 	for i, Setting in ipairs(Data.Settings:GetChildren()) do
