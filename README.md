@@ -12,7 +12,4 @@ GAdmin V2 is an admin panel implementation for Roblox, designed to enhance the e
 
 # Work In Progress
 GAdminV2 is still under development and may contain unfinished features or bugs. If you encounter any issues, please report them on GAdmin's GitHub repository.
-
-# Download
-Download latest version of GAdmin [here](https://github.com/gdr1461/GAdminV2/releases).
 <br/>
