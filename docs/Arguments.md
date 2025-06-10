@@ -81,6 +81,12 @@ Compatible flags:
 	- **Optional** <br/>
 	The Player could also be `nil`.
 
+	- **Multiton** <br/>
+	Two or more items is required for argument's work.
+
+	- **Singleton** <br/>
+	Only one item is required for argument's work.
+
 ### Rank
 Converts to: `RankData` <br/>
 

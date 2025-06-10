@@ -5,8 +5,8 @@ gitSourceBranch = "main"
 changelog = true
 
 [docusaurus]
-onBrokenLinks = "warn"
-onBrokenMarkdownLinks = "warn"
+onBrokenLinks = "ignore"
+onBrokenMarkdownLinks = "ignore"
 
 # From git:
 organizationName = "gdr1461"
