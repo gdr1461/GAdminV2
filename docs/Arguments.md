@@ -12,6 +12,8 @@ To ensure your argument is well-structured, follow this template:
 ```lua
 {
 		Name: string,
+		Description: string,
+
 		Types = {string},
 		Rank: number | string,
 
@@ -25,6 +27,10 @@ Now, let's go over the explanation of this structure.
 ### Name
 Type: `string` <br/>
 The name of the argument displayed on the Command page. Skip this to use the first argument type as the default.
+
+### Description
+Type: `string` <br/>
+The description of the argument displayed in the cmdbar.
 
 ### Types
 Type: `StringArray` <br/>
@@ -91,6 +97,12 @@ Compatible flags:
 	- **Optional** <br/>
 	The rank could also be `nil`.
 
+	- **Multiton** <br/>
+	Two or more items is required for argument's work.
+
+	- **Singleton** <br/>
+	Only one item is required for argument's work.
+
 ### string
 Converts to: `string` <br/>
 
@@ -104,6 +116,12 @@ Compatible flags:
 	- **Optional** <br/>
 	The string could also be `nil`.
 
+	- **Multiton** <br/>
+	Two or more items is required for argument's work.
+
+	- **Singleton** <br/>
+	Only one item is required for argument's work.
+
 ### number
 Converts to: `number` <br/>
 
@@ -111,12 +129,24 @@ Compatible flags:
 	- **Optional** <br/>
 	The number could also be `nil`.
 
+	- **Multiton** <br/>
+	Two or more items is required for argument's work.
+
+	- **Singleton** <br/>
+	Only one item is required for argument's work.
+
 ### boolean
 Converts to: `boolean` <br/>
 
 Compatible flags:
 	- **Optional** <br/>
 	The boolean could also be `nil`.
+
+	- **Multiton** <br/>
+	Two or more items is required for argument's work.
+
+	- **Singleton** <br/>
+	Only one item is required for argument's work.
 
 ### Object
 Converts to: `In-game Instance` <br/>
@@ -127,6 +157,12 @@ Compatible flags:
 
 	- **Optional** <br/>
 	The object could also be `nil`.
+
+	- **Multiton** <br/>
+	Two or more items is required for argument's work.
+
+	- **Singleton** <br/>
+	Only one item is required for argument's work.
 
 Specifics:
 	- **Multiple** `boolean` <br/>

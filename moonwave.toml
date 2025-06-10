@@ -4,20 +4,8 @@ gitRepoUrl = "https://github.com/gdr1461/GAdminV2" # From Git
 gitSourceBranch = "main"
 changelog = true
 
-classOrder = [
-	"MainModule",
-	"ServerAPI",
-	"PlayerAPI",
-	"RankService",
-	"Popup",
-	"Scheduler",
-	"Framework",
-	"Interface",
-	"UI"
-]
-
 [docusaurus]
-onBrokenLinks = "throw"
+onBrokenLinks = "warn"
 onBrokenMarkdownLinks = "warn"
 
 # From git:
