@@ -284,6 +284,7 @@ end
 
 --[=[
 	Changes rank data.
+
 	@yields
 	@param RankLike RankLike -- Rank to change.
 	@param Data RankData -- New rank data.
@@ -685,12 +686,16 @@ end
 --[=[
 	Returns array table of ranks.
 
+	```lua
+	RankService:GetArray() -- {"User", "Moderator", "Admin", "Manager", "Owner"}
+	RankService:GetArray(3) -- {"User", "Moderator", "Admin"}
+	```
+
 	@param Rank RankLike -- Rank to get array from.
-	@param UserId number -- Unused argument. Can be skipped.
 	@within RankService
 	@return {string}
 ]=]
-function Rank:GetArray(Rank, UserId)
+function Rank:GetArray(Rank)
 	Rank = Rank or 5
 	Rank = self:Find(Rank).Rank
 	
@@ -742,7 +747,7 @@ end
 	Finds rank data.
 
 	@param RankLike RankLike -- Rank to find.
-	@param FromCloned boolean -- If the rannk data should be returned from constant rank table.
+	@param FromCloned boolean -- If the rank data should be returned from constant rank table.
 	@param NoCopy boolean -- If the rank data should be returned as a reference and not a copy.
 	@param FromTemporary boolean -- If the rank data should be returned from temporary rank table.
 	@within RankService

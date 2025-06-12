@@ -25,7 +25,7 @@ Command.Description: string -- Description of your command.
 
 Command.Rank: string | number -- Rank required to use command.
 Command.Fluid: boolean --[[ Will API be able to send updates to the client for this
-commannd and will UpPeRcAsE matter when you call command in the chat. ]]
+command and will UpPeRcAsE matter when you call command in the chat. ]]
 
 Command.Arguments: array -- Arguments that you may need for your own command.
 
