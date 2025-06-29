@@ -17,6 +17,9 @@
 	@field __BanPrompt (Player: Player, BanData: BanOptions) -> nil
 	@field Load (API: ServerAPI) -> nil
 	@field GetUserId (PlayerLike: UserLike) -> number
+	@field SetChatTag (Player: Player, Name: string?, Color: Color3?) -> nil
+	@field SetChatColor (Player: Player, Color: Color3?) -> nil
+	@field SetChatName (Player: Player, Name: string?) -> nil
 	@field GetData (PlayerLike: UserLike) -> PlayerData
 	@field SetData (PlayerLike: UserLike, Key: string, Value: any) -> boolean?
 	@field OnMessage (player: Player, Message: string, Options: OnMessageOptions) -> PlayerData
@@ -181,6 +184,49 @@ function Player:GetUserId(PlayerLike)
 	end
 
 	return UserId
+end
+
+--[=[
+	Sets player's chat tag.
+
+	@param Player Player
+	@param Name string?
+	@param Color Color3?
+	@within PlayerAPI
+	@return nil
+]=]
+function Player:SetChatTag(Player, Name, Color)
+	if not Name then
+		Player:SetAttribute("GAChatTag", nil)
+	end
+	
+	Color = Color or Color3.new(1, 1, 1)
+	Player:SetAttribute("GAChatTag", `{Name}-{Color:ToHex()}`)
+end
+
+--[=[
+	Sets player's chat color.
+
+	@param Player Player
+	@param Color Color3?
+	@within PlayerAPI
+	@return nil
+]=]
+function Player:SetChatColor(Player, Color)
+	Color = Color or Color3.new(1, 1, 1)
+	Player:SetAttribute("GAChatColor", Color:ToHex())
+end
+
+--[=[
+	Sets player's chat name.
+
+	@param Player Player
+	@param Name string?
+	@within PlayerAPI
+	@return nil
+]=]
+function Player:SetChatName(Player, Name)
+	Player:SetAttribute("GAChatName", Name)
 end
 
 --[=[

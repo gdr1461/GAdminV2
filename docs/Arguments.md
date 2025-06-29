@@ -171,6 +171,9 @@ Compatible flags:
 	Only one item is required for argument's work.
 
 Specifics:
+	- **ResolverPlayer** `number` <br/>
+	The argument index referring to a value of type `Player`. Changes the Caller to the player resolved from this argument.
+
 	- **Multiple** `boolean` <br/>
 	Returns an array of objects that share similar names.
 
